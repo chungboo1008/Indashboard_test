@@ -1,0 +1,14 @@
+/backup/*
+/.vscode/*
+*.csv
+/mblog/exe_files/*
+/mblog/media/csv/*
+/mblog/media/disp_img/*
+/mblog/media/image/*
+/mblog/media/matlab_files/*
+/mblog/media/result/*
+/mblog/media/xml/*
+/mblog/models/*
+
+.DS_Store
+/mblog/node_modules/*
