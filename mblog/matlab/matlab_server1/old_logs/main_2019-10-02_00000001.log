@@ -1,0 +1,5 @@
+1 [2019.10.02 15:15:48.646210] [information] Starting master (pid = 15788)
+2 [2019.10.02 15:15:48.646325] [information] Global locale: en_US
+3 [2019.10.02 15:15:48.646339] [information] Global encoding: UTF-8
+4 [2019.10.02 15:15:48.646348] [information] terminal encoding: US-ASCII
+16 [2019.10.02 15:15:49.434300] [error] Startup failed: bind: Address already in use

@@ -1,0 +1,8 @@
+392 [2019.10.03 03:17:53.205492] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:05 has elapsed.)
+394 [2019.10.03 03:17:53.205539] [information] [SERVICE:worker] Waiting for worker 1 to finish pending activity
+395 [2019.10.03 03:17:53.205573] [information] [SERVICE:worker] Starting graceful shutdown of worker 1
+396 [2019.10.03 03:17:53.205615] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 1; waiting for process to exit...
+397 [2019.10.03 03:17:54.634381] [information] [SERVICE:worker] Worker 1 exited with code 0
+399 [2019.10.03 03:17:54.634473] [information] [SERVICE:worker] Worker 1 successfully stopped.
+406 [2019.10.03 03:17:55.838495] [out] [worker:2] Worker ready - protocol v2
+410 [2019.10.03 03:17:55.838757] [information] [SERVICE:worker] Worker 2 started

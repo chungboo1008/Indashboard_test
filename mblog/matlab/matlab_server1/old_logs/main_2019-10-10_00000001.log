@@ -1,0 +1,101 @@
+3662 [2019.10.10 11:09:33.444439] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:04 has elapsed.)
+3664 [2019.10.10 11:09:33.444555] [information] [SERVICE:worker] Waiting for worker 14 to finish pending activity
+3665 [2019.10.10 11:09:33.444607] [information] [SERVICE:worker] Starting graceful shutdown of worker 14
+3666 [2019.10.10 11:09:33.444707] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 14; waiting for process to exit...
+3667 [2019.10.10 11:09:33.466814] [information] [SERVICE:worker] Worker 14 exited with code 0
+3669 [2019.10.10 11:09:33.466903] [information] [SERVICE:worker] Worker 14 successfully stopped.
+3676 [2019.10.10 11:09:34.647593] [out] [worker:15] Worker ready - protocol v2
+3680 [2019.10.10 11:09:34.647802] [information] [SERVICE:worker] Worker 15 started
+3783 [2019.10.10 15:06:02.582119] [err] [worker:15] Error using zeros
+3784 [2019.10.10 15:06:02.582172] [err] [worker:15] CLASSNAME input must be a valid numeric or logical class name.
+3785 [2019.10.10 15:06:02.582180] [err] [worker:15] 
+3786 [2019.10.10 15:06:02.582187] [err] [worker:15] Error in fft (line 2)
+3787 [2019.10.10 15:06:02.582193] [err] [worker:15] 
+3790 [2019.10.10 15:06:46.495403] [err] [worker:15] Error using zeros
+3791 [2019.10.10 15:06:46.495440] [err] [worker:15] CLASSNAME input must be a valid numeric or logical class name.
+3792 [2019.10.10 15:06:46.495449] [err] [worker:15] 
+3793 [2019.10.10 15:06:46.495456] [err] [worker:15] Error in fft (line 2)
+3794 [2019.10.10 15:06:46.495463] [err] [worker:15] 
+3800 [2019.10.10 15:09:15.805922] [err] [worker:15] Error using zeros
+3801 [2019.10.10 15:09:15.805970] [err] [worker:15] CLASSNAME input must be a valid numeric or logical class name.
+3802 [2019.10.10 15:09:15.805979] [err] [worker:15] 
+3803 [2019.10.10 15:09:15.805985] [err] [worker:15] Error in fft (line 2)
+3804 [2019.10.10 15:09:15.806006] [err] [worker:15] 
+3807 [2019.10.10 15:10:50.833843] [err] [worker:15] Error using zeros
+3808 [2019.10.10 15:10:50.833881] [err] [worker:15] CLASSNAME input must be a valid numeric or logical class name.
+3809 [2019.10.10 15:10:50.833891] [err] [worker:15] 
+3810 [2019.10.10 15:10:50.833898] [err] [worker:15] Error in fft (line 2)
+3811 [2019.10.10 15:10:50.833904] [err] [worker:15] 
+3812 [2019.10.10 15:11:42.182743] [information] [SERVICE:auto-deploy] Removed 'FFT'
+3813 [2019.10.10 15:11:42.189379] [err] [worker:15] Caught "std::exception" Exception message is:
+3814 [2019.10.10 15:11:42.189418] [err] [worker:15] std::exception
+3815 [2019.10.10 15:11:42.190298] [err] [worker:15] std::exception
+3816 [2019.10.10 15:11:42.190326] [err] [worker:15] 
+3817 [2019.10.10 15:11:42.190537] [err] [worker:15] Error terminating component: 
+3818 [2019.10.10 15:11:42.190557] [err] [worker:15] Dynamic exception type: MathWorks::mcl::mclMATLABException
+3819 [2019.10.10 15:11:42.190579] [err] [worker:15] std::exception::what: std::exception
+3820 [2019.10.10 15:11:42.190586] [err] [worker:15] 
+3821 [2019.10.10 15:16:23.070000] [information] [SERVICE:auto-deploy] Added 'FFT' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/FFT.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/FFT_6')
+3826 [2019.10.10 15:16:32.221770] [err] [worker:15] Error using csvread (line 35)
+3827 [2019.10.10 15:16:32.221812] [err] [worker:15] File not found.
+3828 [2019.10.10 15:16:32.221820] [err] [worker:15] 
+3829 [2019.10.10 15:16:32.221826] [err] [worker:15] Error in fft (line 2)
+3830 [2019.10.10 15:16:32.221833] [err] [worker:15] 
+3833 [2019.10.10 15:17:20.210381] [err] [worker:15] Error using csvread (line 35)
+3834 [2019.10.10 15:17:20.210429] [err] [worker:15] File not found.
+3835 [2019.10.10 15:17:20.210449] [err] [worker:15] 
+3836 [2019.10.10 15:17:20.210455] [err] [worker:15] Error in fft (line 2)
+3837 [2019.10.10 15:17:20.210461] [err] [worker:15] 
+3840 [2019.10.10 15:18:10.424855] [err] [worker:15] Error using csvread (line 35)
+3841 [2019.10.10 15:18:10.424905] [err] [worker:15] File not found.
+3842 [2019.10.10 15:18:10.424927] [err] [worker:15] 
+3843 [2019.10.10 15:18:10.424934] [err] [worker:15] Error in fft (line 2)
+3844 [2019.10.10 15:18:10.424941] [err] [worker:15] 
+3852 [2019.10.10 15:22:09.367137] [err] [worker:15] Error using csvread (line 35)
+3853 [2019.10.10 15:22:09.367171] [err] [worker:15] File not found.
+3854 [2019.10.10 15:22:09.367179] [err] [worker:15] 
+3855 [2019.10.10 15:22:09.367185] [err] [worker:15] Error in fft (line 2)
+3856 [2019.10.10 15:22:09.367191] [err] [worker:15] 
+3859 [2019.10.10 15:22:10.650296] [err] [worker:15] Error using csvread (line 35)
+3860 [2019.10.10 15:22:10.650345] [err] [worker:15] File not found.
+3861 [2019.10.10 15:22:10.650369] [err] [worker:15] 
+3862 [2019.10.10 15:22:10.650375] [err] [worker:15] Error in fft (line 2)
+3863 [2019.10.10 15:22:10.650381] [err] [worker:15] 
+3871 [2019.10.10 15:28:33.481415] [err] [worker:15] Error using csvread (line 35)
+3872 [2019.10.10 15:28:33.481464] [err] [worker:15] File not found.
+3873 [2019.10.10 15:28:33.481487] [err] [worker:15] 
+3874 [2019.10.10 15:28:33.481494] [err] [worker:15] Error in fft (line 2)
+3875 [2019.10.10 15:28:33.481500] [err] [worker:15] 
+3878 [2019.10.10 15:28:42.998236] [err] [worker:15] Error using csvread (line 35)
+3879 [2019.10.10 15:28:42.998269] [err] [worker:15] File not found.
+3880 [2019.10.10 15:28:42.998290] [err] [worker:15] 
+3881 [2019.10.10 15:28:42.998296] [err] [worker:15] Error in fft (line 2)
+3882 [2019.10.10 15:28:42.998303] [err] [worker:15] 
+3885 [2019.10.10 15:28:43.949810] [err] [worker:15] Error using csvread (line 35)
+3886 [2019.10.10 15:28:43.949858] [err] [worker:15] File not found.
+3887 [2019.10.10 15:28:43.949881] [err] [worker:15] 
+3888 [2019.10.10 15:28:43.949887] [err] [worker:15] Error in fft (line 2)
+3889 [2019.10.10 15:28:43.949893] [err] [worker:15] 
+3892 [2019.10.10 15:30:13.323655] [err] [worker:15] Error using csvread (line 35)
+3893 [2019.10.10 15:30:13.323691] [err] [worker:15] File not found.
+3894 [2019.10.10 15:30:13.323699] [err] [worker:15] 
+3895 [2019.10.10 15:30:13.323718] [err] [worker:15] Error in fft (line 2)
+3896 [2019.10.10 15:30:13.323724] [err] [worker:15] 
+3937 [2019.10.10 16:32:03.225975] [information] [SERVICE:auto-deploy] Removed 'FFT'
+3938 [2019.10.10 16:32:03.231873] [err] [worker:15] Caught "std::exception" Exception message is:
+3939 [2019.10.10 16:32:03.231918] [err] [worker:15] std::exception
+3940 [2019.10.10 16:32:03.232855] [err] [worker:15] std::exception
+3941 [2019.10.10 16:32:03.232893] [err] [worker:15] 
+3942 [2019.10.10 16:32:03.233233] [err] [worker:15] Error terminating component: 
+3943 [2019.10.10 16:32:03.233266] [err] [worker:15] Dynamic exception type: MathWorks::mcl::mclMATLABException
+3944 [2019.10.10 16:32:03.233274] [err] [worker:15] std::exception::what: std::exception
+3945 [2019.10.10 16:32:03.233281] [err] [worker:15] 
+3946 [2019.10.10 16:33:39.142790] [information] [SERVICE:auto-deploy] Added 'FFT' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/FFT.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/FFT_7')
+4108 [2019.10.10 23:09:39.647951] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:05 has elapsed.)
+4110 [2019.10.10 23:09:39.647985] [information] [SERVICE:worker] Waiting for worker 15 to finish pending activity
+4111 [2019.10.10 23:09:39.647999] [information] [SERVICE:worker] Starting graceful shutdown of worker 15
+4112 [2019.10.10 23:09:39.648026] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 15; waiting for process to exit...
+4113 [2019.10.10 23:09:41.137462] [information] [SERVICE:worker] Worker 15 exited with code 0
+4115 [2019.10.10 23:09:41.137526] [information] [SERVICE:worker] Worker 15 successfully stopped.
+4122 [2019.10.10 23:09:42.367519] [out] [worker:16] Worker ready - protocol v2
+4126 [2019.10.10 23:09:42.368004] [information] [SERVICE:worker] Worker 16 started

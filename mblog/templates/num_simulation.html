@@ -1,0 +1,296 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        歡迎使用數值模擬功能
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/assets/css/nav.css">
+    <link rel="stylesheet" href="/static/assets/css/common.css">
+    <link rel="stylesheet" href="/static/assets/css/num_simulation.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</head>
+<body class="bg-light">
+
+ {% include "temp/header.html" %}
+
+  <div class="container pt-4" id="app">
+
+    <div class="body-content">
+
+      <el-steps :active="step" align-center>
+            <el-step title="步驟1" description="選擇執行的程式"></el-step>
+            <el-step title="步驟2" description="上傳輸入資料"></el-step>
+            <el-step title="步驟3" description="分析結果與圖表顯示"></el-step>
+      </el-steps>
+      <div v-show = "step == 0">
+          <h2 class="text-center mt-3">選擇功能模式</h2>
+          <div class="row justify-content-center mt-3">
+              <div>
+                 
+                  <div class="cc-selector mt-3">
+                    <div class="row justify-content-center">
+                        <div class="mr-5">
+                          <div class="row justify-content-center mb-3">
+                              <h3 style ="text-align:center">設定MATLAB程式</h3>
+                          </div>
+                          <div class="row">
+                              <input id="matlabUpload" type="radio" name="credit-card" v-model ="mode" value="matlabUpload"/>
+                              <label class="drinkcard-cc matlabUpload" style ="text-align:center"  for="matlabUpload"></label>
+                          </div>
+                           
+                        </div>
+                        <div>
+                            <div class="row justify-content-center mb-3">
+                                <h3 style ="text-align:center">執行MATLAB程式</h3>
+                            </div>
+                            <div class="row">
+                                <input id="exeExecution" type="radio" name="credit-card" v-model ="mode" value="exeExecution" />
+                                <label class="drinkcard-cc exeExecution" style ="text-align:center" for="exeExecution"></label>
+                            </div>
+                             
+                        </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row justify-content-center">
+              <div lcass="col text-center">
+                <button class="btn btn-primary mt-3" type="button" v-on:click="nextStep" id="upload">進行下一步</button>
+              </div>
+          </div>
+      </div>
+      <div v-show = "step == 1">
+          <div v-show = "mode =='matlabUpload'">
+              <h3 class="mt-3"> <span class="text-danger" v-text="fan"></span> </h3>
+              <div class="row justify-content-center">
+                <div class="col-6 mt-3">
+                  <h3 class="text-center mt-3">輸入數值模擬方法資訊</h3>
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-10">
+                <form class="mt-3">
+                    <div class="form-group row">
+                      <label for="url" class="col-sm-3 col-form-label">ＭATLAB Server RESTful URL</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="url" placeholder="ＭATLAB Server RESTful URL"  v-model="url">
+                      </div>
+                    </div>
+                    <div class="form-group row justify-content-center">
+                      <label for="port" class="col-sm-3 col-form-label">Port</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="port" placeholder="PORT" v-model="port">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="servername" class="col-sm-3 col-form-label">MATLAB Server Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="servername" placeholder="Server Name" v-model="server_name">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="servername" class="col-sm-3 col-form-label">Deployable Archive</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="servername" placeholder="Deployable Archive" v-model="archive_name">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="servername" class="col-sm-3 col-form-label">MATLAB Function Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="servername" placeholder="Function Name" v-model="function_name">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="servername" class="col-sm-3 col-form-label">MATLAB Parameter</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="parameter" placeholder="Parameters" v-model="parameter">
+                      </div>
+                    </div>
+    
+                    
+                </form>
+                <div class="col-12 text-center mb-3">
+                  <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep">連接MATLAB主機</button>
+                </div>
+    
+              <div class="row justify-content-center mt-5 pt-2">
+                    <div class="col-1">
+                      <img src="https://img.icons8.com/color/48/000000/light.png">
+                    </div>
+                    <div class="col-8">
+                    <span style="width: 303px;">
+                        模擬(simulation)是將實際系統建立一個數學模式或是實體模型，目的是描述實際系統的性能與運作情形，並顯示其特徵、優點或缺失。大凡複雜系統在概念設計之初，均可先以模式或模型，模擬其功能，以便作為設計與製作的依據。 　　模擬對象的性質可以量化時，數學模式方可藉數值方法進行模擬，稱為數值模擬。
+                      </span>
+                    </div>
+              </div>
+            </div>
+                  
+    
+            
+              </div>
+
+          </div>
+          <div v-show = "mode =='exeExecution'">
+              <h3 class="mt-3"> <span class="text-danger" v-text="fan"></span> </h3>
+              <div class="row justify-content-center">
+                <div class="col-6 mt-3">
+                  <h2 class="text-center mt-3">選擇執行之程式</h2>
+                </div>
+              </div>
+              <div class="row justify-content-center">
+              
+                    <template>
+                        <el-select v-model="value" filterable placeholder="選擇程式碼" style="width:500px">
+                          <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </template>
+                
+                  
+              </div>
+                
+              
+              <div class="row">
+                <div class="col-12 text-center">
+                  <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep">執行程式</button>
+                </div>
+              </div>
+              <div class="row justify-content-center mt-5 pt-2">
+                    <div class="col-1">
+                      <img src="https://img.icons8.com/color/48/000000/light.png">
+                    </div>
+                    <div class="col-8">
+                    <span style="width: 303px;">
+                        模擬(simulation)是將實際系統建立一個數學模式或是實體模型，目的是描述實際系統的性能與運作情形，並顯示其特徵、優點或缺失。大凡複雜系統在概念設計之初，均可先以模式或模型，模擬其功能，以便作為設計與製作的依據。 　　模擬對象的性質可以量化時，數學模式方可藉數值方法進行模擬，稱為數值模擬。
+                      
+                      </span>
+                    </div>
+              </div>
+
+          </div>
+        
+      </div>
+      <div v-show = "step == 2">
+        <h2 class="text-center mt-3">檔案上傳</h2>
+          <!-- <h3 class="mt-3"> <span class="text-danger" v-text="fan"></span> </h3> -->
+          <div class="row justify-content-center ml-2"  style="width: 660px">
+              <div style="color:red;">上傳注意事項:</div><span>檔案格式需為CSV</span>
+          </div>
+          <div class="row  justify-content-center">
+            <form method="post" enctype="multipart/form-data" id = "formUploadFile">
+                {% csrf_token %}
+                <div class="input-group mt-2">             
+                    <div class="custom-file">
+                    <input type="file" style="width: 660px" class="custom-file-input" v-model="uploadData" name="myfile" id="excel" @click="fillFilename">
+                    <label class="custom-file-label text-truncate" for="excel">選擇檔案...</label>
+                    </div>              
+                </div>
+            </form>
+          </div>
+          <div class="row justify-content-center">
+            <div class="form-group text-left">
+              <label for="exampleFormControlTextarea1" >輸入描述:</label>
+              <textarea class="form-control" style="width: 660px"  id="exampleFormControlTextarea1" rows="5">請輸入這個檔案的描述...</textarea>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+                  <div class="col text-center">
+                    <button class="btn btn-primary mt-3" type="button" v-on:click="nextStep" v-bind:disabled="uploadData == ''" id="upload">上傳資料</button>
+                  </div>
+          </div>
+            
+        <div class="row justify-content-center mt-5 pt-2">
+          <div class="col-1">
+            <img src="https://img.icons8.com/color/48/000000/light.png">
+          </div>
+          <div class="col-8">
+          <span style="width: 303px;">
+              請輸入符合該ＭATLAB程式之輸入檔案，其格式為csv檔。<br>
+            </span>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-5 pt-2">
+            
+        </div>
+      </div>
+      <div v-show = "step == 3">
+          <h3 class="text-center mt-3">程式執行結果</h3>
+            
+              
+
+            <div class="row justify-content-center">
+              <div class="col-6" style="height: 600px;overflow: auto;">
+                  <table class="table table-responsive table-bordered">
+                    <tbody v-for = "(item, index) in table_data">
+                        <tr> 
+                          <td v-for = "(value, indexes) in item" v-text="value"></td>
+                        </tr>
+                    </tbody>
+                  </table>
+              </div>
+                
+              <div class="col-6">
+                  <image :src="image_path" style="width:600px;
+                  height:600px;"></image>
+              </div>
+            </div>
+            <div v-show="mode =='matlabUpload'">
+              <div class="row justify-content-center">
+                <div class="col text-center">
+                  <a v-bind:href="csv_path" class="btn btn-primary mt-3" role="button" aria-pressed="true" download="dp.csv">下載結果</a>
+                </div>
+                <div class="col text-center">
+                  <button class="btn btn-success mt-3" type="button" v-on:click="nextStep" id="save_function">儲存ＭATLAB程式</button>
+                </div>
+              </div>
+            </div>
+            
+            <div v-show="mode =='exeExecution'">
+              <div class="row justify-content-center">
+                <div class="col text-center">
+                  <a v-bind:href="csv_path" class="btn btn-primary mt-3" role="button" aria-pressed="true" download="dp.csv">下載結果</a>
+                </div>
+              </div>
+            </div>
+           
+
+                
+            
+      </div>
+      <div class="loadingPanel" v-show="ajaxing">
+          <i class="fas fa-spinner fa-spin fa-4x"></i>
+      </div>
+
+      </div>
+
+
+
+  </div>
+
+
+
+ {% include "temp/footer.html" %}
+
+</body>
+</html>
+<script src = "https://cdn.jsdelivr.net/npm/vue"></script>
+<script src = "https://code.highcharts.com/highcharts.js"></script>
+<script src = "http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+<!-- 客户端导出功能模块为可选选项 -->
+<script src = "http://cdn.hcharts.cn/highcharts/modules/offline-exporting.js"></script>
+<script src = "https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src = "https://unpkg.com/element-ui@2.8.2/lib/index.js"></script>
+<script src = "/static/assets/js/num_simulation/app.js"></script>

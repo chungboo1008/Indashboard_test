@@ -1,0 +1,1368 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        歡迎來到離岸風場管理平台
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/assets/css/nav.css">
+    <link rel="stylesheet" href="/static/assets/css/index.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.11.1/lib/theme-chalk/index.css">
+    <!-- jQuery CDN  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script> -->
+    <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
+    <script src="https://unpkg.com/packery@2/dist/packery.pkgd.min.js"></script>
+    <script src="/static/assets/js/index/web-animations-2.3.1.min.js"></script>
+    <script src="/static/assets/js/index/hammer-2.0.8.min.js"></script>
+    <script src="/static/assets/js/index/muuri-0.6.3.js"></script>
+</head>
+
+<body class="bg-light" onload="updateDashboard()">
+
+    <div class="wrapper">
+       
+        {% include "temp/header.html" %}
+       
+        <div class="container pt-4" id="app">
+            <div class="body-content">
+              <div class="grid">
+              </div>
+              <div class="row my-3">
+                <div class="col-6">
+                  <button class="btn btn-info btn-block py-2" onclick="addBtnClick()" :disabled="mode != 'normal'"><i class="fas fa-plus-circle"></i> 新增元件</button>
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-warning btn-block py-2" @click="toEditMode" v-if="mode == 'normal'"><i class="fas fa-edit"></i> 編輯</button>
+                  <button class="btn btn-success btn-block py-2" @click="endEditMode" v-if="mode == 'edit'"><i class="fas fa-save"></i> 儲存</button>
+                </div>
+              </div>
+        
+            </div>
+        
+        
+            <div id="addContent" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">新增</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div>
+                      <label>新增內容類型</label>
+                      <select class="form-control" v-model="selectingtype">
+                        <option v-for="(item, index) in modeltypes" v-bind:value="item.name" v-text="item.showName"></option>
+                      </select>
+        
+                      <div class="mt-3">
+                        <label>元件尺寸</label>
+                        <div v-show="selectingtype != 'chart'">
+                          <input type="number" v-model="widgeSizeW"> x <input type="number" v-model="widgeSizeH">
+                        </div>
+                        <div v-show="selectingtype == 'chart'">
+                          <input type="number" v-model="widgeSizeW_chart"> x <input type="number" v-model="widgeSizeH_chart">
+                        </div>
+                        <div class="size-hint-div">
+                          <div class="fake-web">
+                            <div class="fake-nav">
+                              <div class="fake-nav2">
+                              </div>
+                            </div>
+                            <div style="background-color: #fff;">
+                              <div v-for="nh in 6">
+                                <span v-for="nw in 12" class="size-hint-block" :class="{'active': widgeSizeW >= nw && widgeSizeH >=nh}" @click="setSize(nw, nh)">
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr/>
+                    <div class="mt-3">
+        
+                      <div v-show="selectingtype == 'text'">
+                        <div class="form-group">
+                          <label>文字尺寸</label>
+                          <select class="custom-select" v-model="textSize" size="3">
+                            <option value="1em">小</option>
+                            <option value="2em">中</option>
+                            <option value="4em">大</option>
+                          </select>
+                        </div>
+        
+                        <div class="form-group">
+                          <label>新增文字內容</label>
+                          <textarea class="form-control" rows="5" v-bind:style="{fontSize: textSize}" v-model="textContent"></textarea>
+                        </div>
+        
+                        <div class="text-center">
+                          <button type="button" class="btn btn-primary" v-on:click="addTextModel" v-bind:disabled="textContent.length <1"><i class="fas fa-font"></i> 新增</button>
+                        </div>
+                      </div>
+        
+                      <div v-show="selectingtype == 'image'">
+                        <form method="post" enctype="multipart/form-data" id = "formUploadFile">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <label>圖片上傳</label>
+                            <input type="file" class="form-control" id="image">
+                          </div>
+                          <div class="text-center">
+                            <button type="button" class="btn btn-primary" v-on:click="addImageModel"><i class="fas fa-image"></i> 新增</button>
+                          </div>
+                        </form>
+                      </div>
+        
+                      <div v-show="selectingtype == 'chart'">
+                        <button type="button" class="btn btn-primary" onclick=javascript:location.href='/chart/'><i class="fas fa-chart-pie"></i> 新增</button>
+                      </div>
+                      <div v-show="selectingtype == 'video'">
+                        <div class="form-group">
+                          <label>Youtube影片連結</label>
+                          <input class="form-control" type="text" v-model="videourl"/>
+                        </div>
+                        <div class="text-center">
+                          <button type="button" class="btn btn-primary" v-on:click="addVideoModel" v-bind:disabled="!videoInputID || videoInputID.length <1"><i class="fas fa-video"></i> 新增</button>
+                        </div>
+                      </div>
+        
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="editContent" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">編輯</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div>
+                      <div v-show="theme.length!=0">
+                        <h3>當前顏色主題：<span class="mt-3 mb-3" v-text="select_color"></span></h3>
+                        
+                        <label>選擇顏色主題</label>
+                        <select  v-show="theme.length!=0" class="form-control mt-2" v-model='select_color'>
+                          <option v-for="ele in theme" v-bind:value="ele" v-text="ele"></option>
+                        </select>
+                      </div>
+        
+                      <div class="form-group mt-2">
+                        <label>背景顏色</label>
+                        <input class="form-control" v-model="editingBgColor" />
+                      </div>
+        
+                      <div class="form-group">
+                        <label>文字顏色</label>
+                        <input class="form-control"  v-model="editingFtColor" />
+                      </div>
+        
+                      <div :style="{'backgroundColor': editingBgColor, 'color': editingFtColor}">
+                        範例文字
+                      </div>
+                      <div class="row mt-3 justify-content-center">
+                          <div class="col">
+                              <button class="btn btn-secondary btn-block" @click="resetColor"><i class="fas fa-sync-alt"></i>重新設定顏色</button>
+                          </div>
+                        <div class="col">
+                          <button class="btn btn-primary btn-block" @click="applyEdit">完成</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-success btn-block" @click="generateColor"><i class="fas fa-sync-alt"></i>產生新顏色</button>
+                        </div>
+                        
+                      </div>
+        
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="loadingPanel" v-show="ajaxing">
+              <i class="fas fa-spinner fa-spin fa-4x"></i>
+            </div>
+        </div>
+        
+    </div>
+    <div class="overlay"></div>
+
+ {% include "temp/footer.html" %}
+
+</body>
+</html>
+<script defer src="https://use.fontawesome.com/releases/v5.2.0/js/all.js" integrity="sha384-4oV5EgaV02iISL2ban6c/RmotsABqE4yZxZLcYMAdG7FAPsyHYAPpywE9PJo+Khy" crossorigin="anonymous"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<!-- <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/modules/offline-exporting.js"></script> -->
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="http://code.highcharts.com/modules/solid-gauge.js"></script>
+<script src="http://code.highcharts.com/modules/heatmap.js"></script>
+<script src="http://code.highcharts.com/highcharts-3d.js"></script>
+<script src="http://unpkg.com/element-ui@2.11.1/lib/index.js"></script> 
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+  function showLoading(){
+    $('#loadingPanel').modal({
+      backdrop: 'static',
+      keyboard: false,
+    });
+  }
+
+  function hideLoading(){
+    $('#loadingPanel').modal('hide');
+  }
+
+  function initApp(){
+    app = new Vue(
+    {
+      el:'#app',
+      data: {
+        circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+        plan: '',
+        ajaxing: false,
+        mode: 'normal',
+        $mainContain: null,
+        $grid: null,
+        dashboarddata: [],
+        modeltypes: [
+          {
+            name: 'text',
+            showName: '文字',
+          },{
+            name: 'image',
+            showName: '圖像',
+          },{
+            name: 'chart',
+            showName: '資料視覺化',
+          },
+          {
+            name: 'video',
+            showName: 'Youtube影片',
+          },
+        ],
+        selectingtype: '',
+        widgeSizeW: 3,
+        widgeSizeH: 6,
+        widgeSizeH_chart:3,
+        widgeSizeW_chart:6,
+        textContent: '',
+        textSize: '.10em',
+        imgurl: '',
+        videourl: '',
+        editingObjId: '',
+        editingBgColor: 'rgb(255,255,255)',
+        editingFtColor: 'rgb(0,0,0)',
+        theme:[],
+        select_color:'ui',
+      },
+      watch: {
+        widgeSizeW: function(val){
+					let tmp = parseInt(val);
+					if(isNaN(tmp)){
+						this.widgeSizeW = 1;
+					}else{
+            if(tmp > 0 && tmp<=12){
+              this.widgeSizeW = tmp;
+            }else{
+              this.widgeSizeW = 1;
+            }
+					}
+				},
+        widgeSizeH: function(val){
+					let tmp = parseInt(val);
+					if(isNaN(tmp)){
+						this.widgeSizeH = 1;
+					}else{
+            if(tmp>0 && tmp<=6){
+              this.widgeSizeH = tmp;
+            }else{
+              this.widgeSizeH = 1;
+            }
+
+					}
+				},
+        widgeSizeH_chart: function(val){
+          let tmp = parseInt(val);
+          if(isNaN(tmp)){
+            this.widgeSizeH_chart = 3;
+          }else{
+            if(tmp>0 && tmp<=6){
+              this.widgeSizeH_chart = tmp;
+            }else{
+              this.widgeSizeH_chart = 3;
+            }
+
+          }
+        },
+        widgeSizeW_chart: function(val){
+          let tmp = parseInt(val);
+          if(isNaN(tmp)){
+            this.widgeSizeW_chart = 6;
+          }else{
+            if(tmp>1 && tmp<=12){
+              this.widgeSizeW_chart = tmp;
+            }else{
+              this.widgeSizeW_chart = 6;
+            }
+
+          }
+         },
+      },
+      computed:{
+        videoInputID: function(){
+          name = 'v';
+          var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+              results = regex.exec(this.videourl);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        },
+        editingObj: function(){
+          for(var i=0;i<this.dashboarddata.length;i++){
+            if(this.dashboarddata[i].eleId && this.dashboarddata[i].eleId == this.editingObjId){
+              return this.dashboarddata[i];
+            }
+          }
+          return null;
+        },
+      },
+      methods:{
+        setSize: function(newW, newH){
+          this.widgeSizeW = newW;
+          this.widgeSizeH = newH;
+        },
+        toEditMode: function(){
+          if(this.mode == 'normal'){
+            const itemList = this.$grid.getItems();
+            for(var i in itemList){
+              const ele = itemList[i];
+              $(ele._element).addClass('edit-style');
+            }
+            this.mode = 'edit';
+          }
+        },
+        endEditMode: function(){
+          if(this.mode == 'edit'){
+            const itemList = this.$grid.getItems();
+            for(var i in itemList){
+              const ele = itemList[i];
+              $(ele._element).removeClass('edit-style');
+            }
+            this.mode = 'normal';
+          }
+          this.$grid.synchronize();
+          this.saveDashboard();
+        },
+        generateOuter: function(obj, id){
+          var $div = $('<div></div>');
+          $div.addClass('item');
+          $div.attr('id', id);
+          obj.eleId = id;
+
+          $div.addClass('sw' + obj.slotW);
+          $div.addClass('sh' + obj.slotH);
+
+          var $inner = $('<div></div>');
+          $inner.addClass('item-content');
+
+          if(obj.bgColor){
+            $inner.css('background-color', obj.bgColor);
+          }
+
+          if(obj.ftColor){
+            $inner.css('color', obj.ftColor);
+          }
+
+          var $del = $('<span></span>');
+          $del.addClass('editmode-model');
+          $del.addClass('del-model');
+          $del.text('X');
+
+          var $edit = $('<span></span>');
+          $edit.addClass('editmode-model');
+          $edit.addClass('edit-model');
+          $edit.text('編輯');
+
+          $div.append($inner);
+          $div.append($edit);
+          $div.append($del);
+
+          $del.on('click', removeBtnClicked);
+          $edit.on('click', editBtnClicked);
+
+          return $div;
+        },
+
+
+        parseTextElement: function(obj, index){
+
+          var $div = $('<div></div>');
+          var $t = $('<span></span>');
+          $t.css('font-size', obj.size);
+          $t.css('text-align', 'left');
+          $t.text(obj.text);
+          $div.append($t);
+          $div.css('display', 'flex');
+          $div.css('justify-content', 'left');
+          $div.css('align-items', 'center');
+
+          return $div;
+        },
+
+        parseImageElement: function(obj){
+          var $img = $('<img/>');
+          $img.attr('src', obj.url);
+          $img.addClass('item-img');
+          return $img;
+        },
+
+        parseChartElement: function(obj){
+          var $chartdiv = $('<div></div>');
+          $chartdiv.addClass('chart-div');
+          $chartdiv.attr('id', 'chart_' + obj.eleId);
+          return $chartdiv;
+        },
+      
+        parseVideoElement: function(obj){
+          var $t = $('<div class="videoWrapper"></div>');
+          var $v = $('<iframe src="https://www.youtube.com/embed/'+obj.videoId+'?rel=0&showinfo=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>');
+          $t.append($v);
+          return $t;
+        },
+
+        parseElement: function(obj, id){
+          var $outer = this.generateOuter(obj, id);
+          var $content;
+
+          if(obj.type == 'text'){
+            $content = this.parseTextElement(obj);
+          }else if(obj.type == 'image'){
+            $content = this.parseImageElement(obj);
+          }else if(obj.type == 'chart'){
+            $content = this.parseChartElement(obj);
+          }else if(obj.type == 'video'){
+            $content = this.parseVideoElement(obj);
+          }else {
+            return null;
+          }
+          $outer.find('.item-content').append($content);
+          return $outer;
+        },
+        readDashboard: function(plan_id){
+          const _this = this;
+          $.ajax({
+            // url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+plan_id,
+            url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id="+plan_id,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+		          _this.ajaxing = true;
+		        },
+            success: function (data) {
+              console.log(data[0].dashboard);
+              _this.dashboarddata = data[0].dashboard;
+              // console.log(_this.dashboarddata);
+              // console.log(_this);
+              _this.dashboardInit();
+
+		    		},
+		    		error: function(xhr, ajaxOptions, thrownError) {
+		    			console.log('error');
+		    			console.log(thrownError);
+		    		},
+		        complete: function(){
+		          _this.ajaxing = false;
+		        }
+          });
+        },
+        getDashboardDataByDragSort: function(){
+          let res = [];
+          const sortItem = this.$grid.getItems();
+          for(let i = 0; i<sortItem.length;i++){
+            const ele = sortItem[i]._element;
+            for(let j=0;j<this.dashboarddata.length;j++){
+              if(ele == this.dashboarddata[j].ele){
+                let temp = {...this.dashboarddata[j]};
+                temp.ele = undefined;
+                res.push(temp);
+                break;
+              }
+            }
+          }
+          return res;
+        },
+
+        saveDashboard: function(){
+          function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                      var cookie = jQuery.trim(cookies[i]);
+                      // Does this cookie string begin with the name we want?
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
+          var csrftoken = getCookie('csrftoken');
+          function csrfSafeMethod(method) {
+              // these HTTP methods do not require CSRF protection
+              return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+          }
+
+          const sortedData = this.getDashboardDataByDragSort();
+          const saveData = {
+            plan_id: '{{ plan_id }}',
+            dashboard: sortedData,
+            csrfmiddlewaretoken:'{{ csrftoken }}',
+          };
+          const _this = this;
+          $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                  }
+              }
+          });
+          $.ajax({
+            // url: "http://140.112.26.237:8002/api/dashboard/{{ plan_id_id }}/save/",
+            url: "http://127.0.0.1:8002/api/dashboard/{{ plan_id_id }}/save/",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data :JSON.stringify(saveData),
+            dataType: "json",
+
+            beforeSend: function(){
+              console.log(csrftoken);
+		          _this.ajaxing = true;
+		        },
+            success: function (data) {
+							console.log(data);
+             
+
+
+		    		},
+		    		error: function(xhr, ajaxOptions, thrownError) {
+              console.log(JSON.stringify(saveData));
+		    			console.log('error');
+		    			console.log(thrownError);
+		    		},
+		        complete: function(){
+		          _this.ajaxing = false;
+		        }
+          });
+        },
+
+        dashboardInit: function(){
+          const _this = this;
+          $('.grid *').remove(); // all widget remove
+
+          for(var i in this.dashboarddata){
+
+            var obj = this.dashboarddata[i];
+            var $ele = this.parseElement(obj, 'item-'+i);
+            console.log("obj", obj);
+            console.log($ele);
+
+            if($ele != null){
+              $('.grid').append($ele);
+
+              obj.ele = $ele[0];
+              if(obj.type == 'chart'){
+                Highcharts.chart('chart_' + obj.eleId, obj.chartdata);
+              }
+            }
+          }
+
+          for(var i in this.dashboarddata){
+            var obj = this.dashboarddata[i];
+            var ele = obj.ele;
+
+          }
+
+          this.$grid = new Muuri('.grid', {
+            dragEnabled: true,
+            dragStartPredicate: function (item, event) {
+              // Prevent first item from being dragged.
+              if (app.mode != 'edit') {
+                return false;
+              }
+              // For other items use the default drag start predicate.
+              return Muuri.ItemDrag.defaultStartPredicate(item, event);
+            },
+          });
+        },
+
+        addPanelInit: function(){
+          this.widgeSizeW = 1;
+          this.widgeSizeH = 1;
+          this.selectingtype = this.modeltypes[0].name;
+          this.textContent = '';
+          this.textSize = '.7em';
+          this.imgurl = '';
+          this.videoInputID = '';
+        },
+
+        addTextModel: function(){
+          var temp = {};
+          temp.type = 'text';
+          temp.text = this.textContent;
+          temp.size = this.textSize;
+          temp.slotW = this.widgeSizeW;
+          temp.slotH = this.widgeSizeH;
+          //console.log(temp);
+          this.pushModel(temp);
+        },
+
+        addVideoModel: function(){
+          var temp = {};
+          temp.type = 'video';
+          temp.videoId = this.videoInputID;
+          temp.slotW = this.widgeSizeW;
+          temp.slotH = this.widgeSizeH;
+          //console.log(temp);
+          this.pushModel(temp);
+        },
+
+        addChartModel:function() {
+          const _this = this;
+          $.ajax({
+            // url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id={{ plan_id }}",
+            url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id={{ plan_id }}",
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+              _this.ajaxing = true;
+            },
+            success: function (data) {
+              console.log(data[0].dashboard);
+              _this.chartData = data[0].dashboard[1];
+              console.log(_this.chartdata);
+
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+              console.log('error');
+              console.log(thrownError);
+            },
+            complete: function(){
+              _this.ajaxing = false;
+            }
+          });
+          var temp={};
+          temp.type='chart';
+          temp.chartData=this.chartData;
+          temp.slotW = this.widgeSizeW;
+          temp.slotH = this.widgeSizeH;
+        },
+
+        addImageModel: function(){
+          showLoading();
+          const _this = this;
+          var formData = new FormData();
+          formData.append('image', document.getElementById("image").files[0])
+           $.ajax({
+                // url: "http://140.112.26.237:8002/api/file/upload_image/",
+                url: "http://127.0.0.1:8002/api/file/upload_image/",
+                type: "POST",
+
+                contentType: false,
+                data :formData,
+                processData:false,
+                dataType: "json",
+                async: false,
+                beforeSend: function(){
+                  _this.ajaxing = true;
+                },
+                success: function (response) {
+                  if(response.status=='ok'){
+                     var url=response.url;
+
+                     var temp = {};
+                     temp.type = 'image';
+                     temp.url = response.url;
+                     temp.slotW = _this.widgeSizeW;
+                     temp.slotH = _this.widgeSizeH;
+                     console.log(temp);
+                     _this.pushModel(temp);
+
+                  }
+                  else{
+                    alert('儲存失敗');
+                  }
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+
+                  console.log('error');
+                  console.log(thrownError);
+                },
+                complete: function(){
+                  _this.ajaxing = false;
+                }
+              });
+
+        },
+
+        pushModel: function(m){
+          const _this = this;
+          var $ele = this.parseElement(m, this.dashboarddata.length);
+
+          if($ele != null){
+            this.$grid.add($ele[0]);
+            m.ele = $ele[0];
+          }
+          this.dashboarddata.push(m);
+          this.saveDashboard();
+          this.closePanel();
+        },
+
+        closePanel: function(){
+          $('#addContent').modal('hide');
+        },
+
+        showEditModal: function(eleId){
+          this.editingObjId = eleId;
+          showLoading();
+            const _this=this;
+            $.ajax({
+                url: "http://colormind.io/list/",
+                type: "GET",
+                dataType: "json",
+                async: false,
+                beforeSend: function(){
+                  _this.ajaxing = true;
+                },
+                success: function (response) {
+                  console.log(response.result);
+                  _this.theme=response.result;
+                      
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+
+                  console.log('error');
+                  console.log(thrownError);
+                },
+                complete: function(){
+                  _this.ajaxing = false;
+                }
+            });
+
+          //這邊將現有內容同步給編輯中物件
+          if(this.editingObj.bgColor){
+            this.editingBgColor = this.editingObj.bgColor;
+          }else{
+            this.editingBgColor = 'rgb(255,255,255)';
+          }
+          if(this.editingObj.ftColor){
+            this.editingFtColor = this.editingObj.ftColor;
+          }else{
+            this.editingFtColor = 'rgb(0,0,0)';
+          }
+          $('#editContent').modal('show');
+        },
+
+        applyEdit: function(){
+          this.editingObj.bgColor = this.editingBgColor;
+          this.editingObj.ftColor = this.editingFtColor;
+          $(this.editingObj.ele).find('.item-content').css('background-color', this.editingObj.bgColor);
+          $(this.editingObj.ele).find('.item-content').css('color', this.editingObj.ftColor);
+          $('#editContent').modal('hide');
+        },
+        generateColor: function(){
+            const _this=this;
+            saveData={
+                model:_this.select_color
+            }
+            showLoading();
+           $.ajax({
+                url: "http://colormind.io/api/",
+                type: "POST",
+                data :JSON.stringify(saveData),
+                dataType: "json",
+                async: false,
+                beforeSend: function(){
+                  _this.ajaxing = true;
+                },
+                success: function (response) {
+                  for(i=0;i<5;i++){
+                    console.log(response.result[i]);    
+                  }
+                  var colorArray=response.result[0]
+                  console.log(colorArray[0]);
+                  console.log(colorArray[1]);
+                  console.log(colorArray[2]);
+                  var rgb="rgb("+colorArray[0]+","+colorArray[1]+","+colorArray[2]+")"
+                  console.log(rgb)
+                  _this.editingBgColor=rgb
+                      
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+
+                  console.log('error');
+                  console.log(thrownError);
+                },
+                complete: function(){
+                  _this.ajaxing = false;
+                }
+              });
+        },
+        resetColor: function(){
+          this.editingBgColor = 'rgb(255,255,255)';
+          this.editingFtColor = 'rgb(0,0,0)';
+        },
+
+        refreshData: function(plan_id){
+          console.log("FRESH~");
+          var chartStartTime = "2014-01-01T02:00";
+          var chartEndTime = "2014-01-01T12:00";
+          var eleID;
+          var temp;
+          var yData = [];
+          var values;
+          
+          const _this = this;
+          $.ajax({
+            url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id="+plan_id,
+            // url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+_this.plan_id,
+            type: "GET",
+            dataType: "json",
+            async:false,
+            beforeSend: function(){
+              _this.ajaxing = true;
+            },
+            success: function (data) {
+              _this.dashboarddata = data[1].dashboard;
+              // console.log(_this.dashboarddata);
+              for(index = 0;index < _this.dashboarddata.length;index++){
+                
+                if(_this.dashboarddata[index].type === "chart" && _this.dashboarddata[index].chartdata.chart.type === "spline"){
+                  const parameter = _this.dashboarddata[index].chartdata.parameter;
+                  // console.log(parameter);
+                  values = parameter.columns.pop();
+                  parameter.columns.push(values);
+                  temp = _this.dashboarddata[index].chartdata;
+                  for(i = 0;i < parameter.columns.length - 1;i++){
+                    yData[i] = parameter.columns[i];
+                  }
+
+                  //update time
+                  parameter.start_time = StringToDatetime(parameter.start_time);
+                  parameter.end_time = StringToDatetime(parameter.end_time);
+
+                  function StringToDatetime(str){
+                    var buf = str.split(" ");
+                    var date = buf[0].split("-");
+                    var time = buf[1].split(":");
+
+                    var d = new Date();
+                    d.setFullYear(date[0]);
+                    d.setMonth(date[1]);
+                    d.setDate(date[2]);
+                    d.setHours(time[0]);
+                    d.setMinutes(time[1]);
+                    d.setSeconds(time[2]);
+                    d.setTime(d.getTime()+5*60*1000);
+                    console.log(d);
+                    return d.getFullYear() + "-" + check(d.getMonth()) + "-" + check(d.getDate()) + " " + check(d.getHours()) + ":" + check(d.getMinutes()) + ":" + check(d.getSeconds());
+                  }
+
+                  function check(num){
+                    if(num < 10)
+                      return "0" + num.toString();
+                    else
+                      return num.toString();
+                  }
+                  // parameter.start_time = chartStartTime.setTime(chartStartTime.getTime()+1*60*60).toString();
+                  // parameter.end_time = chartEndTime.setTime(chartEndTime.getTime()+3600).toString();
+                  // console.log("check",chartEndTime.setTime(chartEndTime.getTime()+3600));
+                  // console.log(parameter);
+
+                  /*var temp = {
+                    "chart": {
+                      "type": 'spline',
+                      "zoomType":'y'
+                    },
+                    "title": {
+                      'text': '風機資料'
+                    },
+                    'subtitle': {
+                      
+                    },
+                    'xAxis': {
+                      'type' : 'datetime',
+                      'dateTimeLabelFormats' : {
+                      'week' : '%H%M'
+                      },
+                      'reversed': false,
+                      'title': {
+                        'enabled': true,
+                        'text': 'X數值'
+                      },
+                      'labels': {
+                        'format': '{value} '
+                      },
+                      'maxPadding': 0.05,
+                      'showLastLabel': true
+                    },
+                    'yAxis': {
+                      'title': {
+                        'text': 'Y數值'
+                      },
+                      'labels': {
+                        'format': '{value}'
+                      },
+                      'lineWidth': 2
+                    },
+                    'legend': {
+                      'enabled':true
+                    },
+                    'tooltip': {
+                      'headerFormat': '<b>{series.name}</b><br/>',
+                      'pointFormat': 'X={point.x} : Y={point.y}'
+                    },
+                    'plotOptions': {
+                      'spline': {
+                        'marker': {
+                          'enable': true
+                        }
+                      }
+                    },
+                    'series': []
+                    };
+                  */
+                  var json = temp;   
+                  // $('#hello').highcharts(json);  
+                  var chart=new Object;
+                  chart.type='chart';
+                  chart.slotW=6;
+                  chart.slotH=3;
+                  chart.chartdata=json;
+                  this.temp=chart;
+                  
+                  //refresh dashboard
+
+                  $.ajax({
+                    // url: "http://140.112.26.237:8002/api/file/mli_to_json/",
+                    url: "http://127.0.0.1:8002/api/file/mli_to_json/",
+                    type: "POST",
+                    dataType: "json",
+                    data:JSON.stringify(parameter),
+                    async:false,
+                    beforeSend: function(){
+                        _this.ajaxing = true;
+                    },
+                    success: function (data) {
+                      var length = parameter.columns.length - 1;
+                      // console.log(chart);
+                      
+                      delete _this.dashboarddata[index].chartdata.series;
+                      _this.dashboarddata[index].chartdata.series = new Array();
+                      for(i=0;i<length;i++){
+                        var arr = []
+                        for(j=0;j<data[0][0].length;j++){
+                          var tmp = []
+                            var datetime = new Date(data[0][0][j][values]);
+                            tmp.push(datetime);
+                            tmp.push(parseFloat(data[0][0][j][yData[i]]))
+                          arr.push(tmp)
+                        }
+
+                        var startDatetime = splitString(parameter.start_time);
+                        var endDateime = splitString(parameter.end_time);
+
+                        var sD = new Date(startDatetime);
+                        var eD = new Date(endDateime);
+                        var mSecond = eD.getTime() - sD.getTime();
+                        console.log(mSecond);
+
+                        function splitString(str){
+                        var buf = str.split(" ");
+                        var date = buf[0].split("-");
+                        var time = buf[1].split(":");
+                        var d = new Date();
+                        d.setFullYear(date[0]);
+                        d.setMonth(date[1]);
+                        d.setDate(date[2]);
+                        d.setHours(time[0]);
+                        d.setMinutes(time[1]);
+                        d.setSeconds(time[2]);
+                        return d
+                        }
+                        
+                        const bala = {
+                          name:parameter.columns[i],
+                          data:arr,
+                          pointStart: Date.UTC(startDatetime.getFullYear(), startDatetime.getMonth() - 1, startDatetime.getDate(), startDatetime.getHours(),startDatetime.getMinutes(),startDatetime.getSeconds()),
+                          pointInterval: mSecond / data[0][0].length
+                        }
+                        console.log("bala", bala);
+
+                        temp.series.push(bala);
+                        _this.dashboarddata[index].chartdata.series[i] = bala;
+                        // _this.dashboarddata[index].chartdata.series[0] = bala;
+                      }
+                      //add get data information
+                      // console.log(temp);
+                      temp.parameter = parameter;
+                      // console.log(temp);
+
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                      console.log('error');
+                      console.log(thrownError);
+                    },
+                    complete: function(){
+                      _this.ajaxing = false;
+                    }
+                  });
+
+                  // _this.dashboarddata[index].chartdata = temp;
+                  console.log("data changed",_this.dashboarddata[index]);
+                  
+                }
+              }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+              console.log('error');
+              console.log(thrownError);
+            },
+            complete: function(){
+              _this.ajaxing = false;
+            }
+          });
+          _this.dashboardInit();
+          _this.saveDashboard();
+          console.log("update success");
+
+          // window.setTimeout(BalaGinjo, 10000);
+          function BalaGinjo(){
+            app.refreshData('{{plan_id}}');
+          }
+        }
+      },
+    });
+  }
+
+  
+  function addBtnClick(){
+    app.addPanelInit();
+    $('#addContent').modal('show');
+  }
+
+  var $t;
+  function removeBtnClicked(evt){
+    var r = confirm("確定刪除此元件?");
+    if (r == true) {
+      $t = $(evt.currentTarget).parent();
+      for(var i in app.dashboarddata){
+        if(app.dashboarddata[i].ele == $t[0]){
+          app.dashboarddata.splice(i, 1);
+          break;
+        }
+      }
+      app.$grid.remove($t[0],{removeElements: true});
+    }
+  }
+
+  function editBtnClicked(evt){
+    var $temp = $(evt.currentTarget).parent();
+    // console.log($temp.attr('id'));
+    app.showEditModal($temp.attr('id'));
+
+
+  }
+
+  //test code start
+  function updateDashboard(){
+    time = document.getElementById("timer");
+    window.setTimeout(BalaGinjo, 5000);
+    // window.setInterval(BalaGinjo, 10000);
+  }
+
+  function BalaGinjo(){
+    app.refreshData('{{plan_id}}');
+  }
+
+
+  function refreshData2(){
+    time.innerHTML = time.innerHTML - 1;
+    if(year < 7){
+      year = year + 1;
+    }
+      
+    var chartStartTime = "2014-01-01T02:00";
+    var chartEndTime = "2014-01-01T12:00";
+    var eleID;
+    // var temp;
+    var yData = [];
+    var values;
+    
+      const _this = this;
+      // console.log("IID");
+      // console.log(_this.plan_id);
+    $.ajax({
+      url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id="+_this.plan_id,
+      // url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+_this.plan_id,
+      type: "GET",
+      dataType: "json",
+      async:false,
+      beforeSend: function(){
+        _this.ajaxing = true;
+      },
+      success: function (data) {
+        // console.log("data");
+        // console.log(data);
+        _this.dashboarddata = data[0].dashboard;
+        // console.log(_this.dashboarddata);
+        for(index = 0;index < _this.dashboarddata.length;index++){
+          console.log("index:", index);
+          console.log(_this.dashboarddata[index]);
+          console.log(_this.dashboarddata[index].type);
+          if(_this.dashboarddata[index].type === "chart"){// && index > 9
+            const parameter = _this.dashboarddata[index].chartdata.parameter;
+            values = parameter.columns.pop();
+            parameter.columns.push(values);
+            for(i = 0;i < parameter.columns.length - 1;i++){
+              yData[i] = parameter.columns[i];
+            }
+
+            //update time
+            parameter.start_time = "201" + year + "-01-01 12:00:00";
+            parameter.end_time = "201" + year + "-03-01 12:00:00";
+            console.log(parameter);
+            // if(this.charttype=='line'){
+            var temp = {
+              "chart": {
+                "type": 'spline',
+                "zoomType":'y'
+              },
+              "title": {
+                'text': '風機資料'
+              },
+              'subtitle': {
+                
+              },
+              'xAxis': {
+                'type' : 'datetime',
+                'dateTimeLabelFormats' : {
+                'week' : '%H%M'
+                },
+                'reversed': false,
+                'title': {
+                  'enabled': true,
+                  'text': 'X數值'
+                },
+                'labels': {
+                  'format': '{value} '
+                },
+                'maxPadding': 0.05,
+                'showLastLabel': true
+              },
+              'yAxis': {
+                'title': {
+                  'text': 'Y數值'
+                },
+                'labels': {
+                  'format': '{value}'
+                },
+                'lineWidth': 2
+              },
+              'legend': {
+                'enabled':true
+              },
+              'tooltip': {
+                'headerFormat': '<b>{series.name}</b><br/>',
+                'pointFormat': 'X={point.x} : Y={point.y}'
+              },
+              'plotOptions': {
+                'spline': {
+                  'marker': {
+                    'enable': true
+                  }
+                }
+              },
+              'series': []
+              };
+            var json = temp;   
+            // $('#hello').highcharts(json);  
+            var chart=new Object;
+            chart.type='chart';
+            chart.slotW=6;
+            chart.slotH=3;
+            chart.chartdata=json;
+            this.temp=chart;
+            // }
+            
+
+            
+            //refresh dashboard
+
+            $.ajax({
+              // url: "http://140.112.26.237:8002/api/file/mli_to_json/",
+              url: "http://127.0.0.1:8002/api/file/mli_to_json/",
+              type: "POST",
+              dataType: "json",
+              data:JSON.stringify(parameter),
+              async:false,
+              beforeSend: function(){
+                  _this.ajaxing = true;
+              },
+              success: function (data) {
+                console.log(data);
+                console.log("temp", temp);
+                // var chart=Highcharts.chart('hello',temp);
+                var length = parameter.columns.length - 1;
+                console.log(chart);
+                for(i=0;i<length;i++){
+                  var arr = []
+                  for(j=0;j<data[0][0].length;j++){
+                    var tmp = []
+                      tmp.push(parseFloat(data[0][0][j][values]))
+                      tmp.push(parseFloat(data[0][0][j][yData[i]]))
+                    arr.push(tmp)
+                  }
+                  
+                  const bala = {
+                    name:parameter.columns[i],
+                    data:arr,
+                  }
+                  console.log(bala);
+                  // chart.addSeries(bala);
+                  // console.log("up:", chart);
+                  console.log(temp.series);
+                  temp.series.push(bala);
+                  // temp.series[i] =s;
+                  console.log(temp.series);
+                  
+                  //$('#highcharts-he1m23w-371').highcharts(json);
+                  
+                }
+                //add get data information
+                console.log(temp);
+                temp.parameter = parameter;
+                console.log(temp);
+
+              },
+              error: function(xhr, ajaxOptions, thrownError) {
+                console.log('error');
+                console.log(thrownError);
+              },
+              complete: function(){
+                 _this.ajaxing = false;
+              }
+            });
+
+            _this.dashboarddata[index].chartdata = temp;
+            console.log(_this.dashboarddata[index]);
+            
+          }
+            
+        }
+        
+        const newDashboardData = _this.dashboarddata;
+        // console.log(_this.temp);
+        // newDashboardData.push(_this.temp);
+        console.log(newDashboardData);
+        const saveDashboardData = {
+          //plan_id: _this.plan_id,
+          plan_id: "plan1",
+          dashboard: newDashboardData,
+        };
+        console.log(saveDashboardData);
+        /*$.ajax({
+          url: "http://127.0.0.1:8002/api/dashboard/1/save/",
+          // url: "http://140.112.26.237:8002/api/dashboard/1/save/",
+          type: "POST",
+          contentType: 'application/json; charset=utf-8',
+          data :JSON.stringify(saveDashboardData),
+          dataType: "json",
+          async:false,
+          beforeSend: function(){
+              _this.ajaxing = true;
+          },
+          success: function (data) {
+            console.log(data);
+            console.log("update success");
+            // alert("UPDATE SUCCESS!");
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            //console.log(JSON.stringify(saveData));
+            console.log('error');
+            console.log(thrownError);
+          },
+          complete: function(){
+              _this.ajaxing = true;
+          }
+        });*/
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        console.log('error');
+        console.log(thrownError);
+      },
+      complete: function(){
+        _this.ajaxing = false;
+      }
+    });
+          //}
+    app.dashboardInit();
+    console.log("update success");
+    // window.location.reload();
+  }
+  //test code end
+
+  $(document).ready(function(){
+    initApp();
+    app.readDashboard('{{plan_id}}');
+    // app.dashboardInit();
+    /*
+      串接成功後，上面這一行改為：
+      app.readDashboard();
+    */
+
+  });
+</script>

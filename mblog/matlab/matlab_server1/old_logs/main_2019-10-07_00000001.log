@@ -1,0 +1,31 @@
+1909 [2019.10.07 02:12:27.295594] [information] [SERVICE:auto-deploy] Added 'FFT' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/FFT.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/FFT_4')
+1914 [2019.10.07 02:14:38.319954] [out] [worker:8] 
+1915 [2019.10.07 02:14:38.319997] [out] [worker:8] status =
+1916 [2019.10.07 02:14:38.320006] [out] [worker:8] 
+1917 [2019.10.07 02:14:38.320014] [out] [worker:8]      0
+1918 [2019.10.07 02:14:38.320020] [out] [worker:8] 
+2069 [2019.10.07 10:18:15.700933] [information] [SERVICE:auto-deploy] Updated 'FFT' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/FFT.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/FFT_5')
+2072 [2019.10.07 10:18:15.706255] [err] [worker:8] Caught "std::exception" Exception message is:
+2073 [2019.10.07 10:18:15.706297] [err] [worker:8] std::exception
+2074 [2019.10.07 10:18:15.707501] [err] [worker:8] std::exception
+2075 [2019.10.07 10:18:15.707545] [err] [worker:8] 
+2076 [2019.10.07 10:18:15.707681] [err] [worker:8] Error terminating component: 
+2077 [2019.10.07 10:18:15.707702] [err] [worker:8] Dynamic exception type: MathWorks::mcl::mclMATLABException
+2078 [2019.10.07 10:18:15.707711] [err] [worker:8] std::exception::what: std::exception
+2079 [2019.10.07 10:18:15.707719] [err] [worker:8] 
+2134 [2019.10.07 11:09:05.086554] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:05 has elapsed.)
+2136 [2019.10.07 11:09:05.086668] [information] [SERVICE:worker] Waiting for worker 8 to finish pending activity
+2137 [2019.10.07 11:09:05.086727] [information] [SERVICE:worker] Starting graceful shutdown of worker 8
+2138 [2019.10.07 11:09:05.086820] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 8; waiting for process to exit...
+2139 [2019.10.07 11:09:06.576363] [information] [SERVICE:worker] Worker 8 exited with code 0
+2141 [2019.10.07 11:09:06.576437] [information] [SERVICE:worker] Worker 8 successfully stopped.
+2148 [2019.10.07 11:09:07.787013] [out] [worker:9] Worker ready - protocol v2
+2152 [2019.10.07 11:09:07.787273] [information] [SERVICE:worker] Worker 9 started
+2482 [2019.10.07 23:09:09.787689] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:02 has elapsed.)
+2484 [2019.10.07 23:09:09.787800] [information] [SERVICE:worker] Waiting for worker 9 to finish pending activity
+2485 [2019.10.07 23:09:09.787920] [information] [SERVICE:worker] Starting graceful shutdown of worker 9
+2486 [2019.10.07 23:09:09.788034] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 9; waiting for process to exit...
+2487 [2019.10.07 23:09:11.368772] [information] [SERVICE:worker] Worker 9 exited with code 0
+2489 [2019.10.07 23:09:11.368837] [information] [SERVICE:worker] Worker 9 successfully stopped.
+2496 [2019.10.07 23:09:12.560635] [out] [worker:10] Worker ready - protocol v2
+2500 [2019.10.07 23:09:12.560900] [information] [SERVICE:worker] Worker 10 started

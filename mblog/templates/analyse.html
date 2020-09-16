@@ -1,0 +1,652 @@
+<!DOCTYPE >
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        歡迎使用InAnalysis分析功能
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/assets/css/nav.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/static/assets/css/common.css">
+    <link rel="stylesheet" href="/static/assets/css/analyse.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+    
+</head>
+<body class="bg-light">
+
+ {% include "temp/header.html" %}
+
+  <div class="container pt-4" id="app">
+
+    <div class="body-content">
+        <!-- <div v-show="step == 0">
+          <h3 class="text-center mt-3">請選擇資料分析方案</h3>
+          <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep" >風機分析方案</button>
+          <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep" >一般分析方案</button>
+        </div> -->
+      
+        <div v-show="step == 1">
+          <h3 class="text-center mt-3">請選擇要進行機器學習的風機</h3>
+          <div class="mt-2" style="position:relative; width:100%; padding-top:66.6%">
+            <div style="position:absolute; top:0; left:0; width: 100%; height:100%;">
+              <div id="map" style="width: 100%; height:100%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="step == 2">
+          <h3 class="mt-3"> <span class="text-danger" v-text="fan"></span> </h3>
+          <div class="row justify-content-center">
+          <div class="col-6 ">
+            <h3 class="text-center mt-3">選擇資料分析方法</h3>
+
+            <select class="form-control mt-2 " v-model='method' >
+              <option value="regression">回歸</option>
+              <option value="abnormal-detection">異常偵測</option>
+              <option value="classification">分類</option>
+              <option value="cluster">分群</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-6 ">
+            <h3 class="text-center mt-3">選擇演算法</h3>
+            <div v-show="method=='regression'">
+              <select class="form-control mt-2 " v-model="regression_algotype" >
+                <option value="linear-regression">Linear Regression</option>
+                <option value="lasso-regression">Lasso Regression</option>
+                <option value="ridge-regression">Ridge Regression</option>
+                <option value="polynomial-regression">Polynomial Regression</option>
+              </select>
+            </div>
+             <div v-show="method=='abnormal-detection'">
+              <select class="form-control mt-2 " v-model="abnormal_algotype" >
+                <option value="svm">SVM</option>
+              </select>
+            </div>
+            <div v-show="method=='cluster'">
+              <select class="form-control mt-2 " v-model="cluster_algotype" >
+                <option value="birch">Birch</option>
+              </select>
+            </div>
+            <div v-show="method=='classification'">
+              <select class="form-control mt-2 " v-model="classification_algotype" >
+                <option value="knn">KNN</option>
+              </select>
+            </div>
+          </div>
+        </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <h3 class="text-center mt-3">Step1:選擇分析的欄位</h3>
+         <!--      <div v-text="checkValue"></div> -->
+              
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input"  @click="selectAll" :checked="checked" id="selectall">
+                  <label for="selectall" class="custom-control-label" >全選</label>
+                </div>
+                <div class="mt-3">
+                  <div v-for="(ele, index) in cols1" class="mt-1 custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox"  v-model="checkValue" v-bind:id="'col'+index" v-bind:value="ele" />
+                    <label class="custom-control-label" v-text="ele" v-bind:for="'col'+index"></label>
+                  </div>
+                </div>
+            
+            </div>
+
+            <div class="col-6">
+              <h3 class="text-center mt-3">Step2:選擇時間區間</h3>
+              <div class="mt-4">
+                <input type="datetime-local" class="form-control" v-model="chartStartTime">
+                <h6 class="mt-1 my-1 text-center">至</h6>
+                <input type="datetime-local" class="form-control" v-model="chartEndTime">
+              </div>
+            </div>
+
+            <div class="col-12 text-center">
+              <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep" v-bind:disabled="checkValue.length==0">資料前處理</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div v-show="step == 3">
+          <h3 class="mt-3"> <span class="text-danger" v-text="fan"></span> </h3>
+          <div class="row">
+            <div class="col-12">
+              <h3 class="text-center mt-3">選擇Label</h3>
+             <!--  <div v-text="checkValue"></div> -->
+              <div class="mt-3">                
+                <div class="custom-control custom-radio" v-for="(ele, index) in checkValue2">
+                  <input type="radio" v-model="label" class="custom-control-input"  v-bind:id="'col_radio'+index" v-bind:value="ele"/>
+                  <label class="custom-control-label" v-text="ele" v-bind:for="'col_radio'+index"></label>
+                </div>
+            </div>
+            </div>
+          <div class="col-12 text-center">
+              <button class="btn btn-primary px-3 mt-5" v-bind:disabled="label.length==0" v-on:click="nextStep" >資料前處理</button>
+          </div>
+          </div>
+        </div>
+
+        <div v-show="step >= 4">
+          <h3 class="mt-3"> <span class="text-danger" v-text="fan"></span> </h3>
+          <div class="row mt-3">
+            <div class="col-12 col-md-4 mt-3 step-desc" v-bind:class="{'active': step == 4}">
+              1. 資料前處理
+            </div>
+            <div class="col-12 col-md-4 mt-3 step-desc" v-bind:class="{'active': step == 5}">
+              2. 特徵值選取
+            </div>
+            <div class="col-12 col-md-4 mt-3 step-desc" v-bind:class="{'active': step == 6}">
+              3. 模型訓練
+            </div>
+          </div>
+
+          <div v-show="step == 4">
+             
+            <label class="mt-5">選擇要正規化的欄位</label>
+            <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input"  @click="selectAll4" :checked="checked4" id="selectall_step4">
+                  <label for="selectall_step4" class="custom-control-label" >全選</label>
+            </div>
+            <div class="mt-3">
+                <div v-for="(ele, index) in checkValue2" class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input"  v-model="checkValue3" v-bind:id="'col_s4_'+index" v-bind:value="ele" />
+                  <label v-text="ele" class="custom-control-label" v-bind:for="'col_s4_'+index"></label>
+                </div>
+              </div>
+            <div class="col-12 text-center">
+              <button class="btn btn-primary px-3 mt-5"  v-bind:disabled="checkValue3.length==0"v-on:click="nextStep">特徵值選取</button>
+            </div>
+          </div>
+
+          <div v-show="step == 5">
+             <span v-text="message"></span>
+             <div class="row">
+                <div class="col">
+                  <label class="mt-5">選取要使用的欄位</label>
+                  <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input"  @click="selectAll5" :checked="checked5" id="selectall_step5">
+                        <label for="selectall_step5" class="custom-control-label" >全選</label>
+                  </div>
+                  <div class="mt-3">
+                    <div v-for="(ele, index) in checkValue3" class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input"  v-model="checkValue4" v-bind:id="'col_s5_'+index" v-bind:value="ele" />
+                        <label v-text="ele" class="custom-control-label" v-bind:for="'col_s5_'+index"></label>
+                    </div>
+                  </div>
+                </div>
+              <div class="col">
+               <label class="mt-5">選取X欄位</label>
+             <!--  <div v-text="checkValue"></div> -->
+              <div class="mt-3">                
+                <div class="custom-control custom-radio" v-for="(ele, index) in checkValue3">
+                  <input type="radio" v-model="x" class="custom-control-input"  v-bind:id="'col_radio_show'+index" v-bind:value="ele"/>
+                  <label class="custom-control-label" v-text="ele" v-bind:for="'col_radio_show'+index"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+              <div class="col-4 text-center">
+                <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep">分析程式管理</button>
+              </div>
+              <div class="col text-center">
+                <button class="btn btn-primary px-3 mt-5" v-bind:disabled="checkValue4.length==0" v-on:click="nextStep">模型訓練</button>
+              </div>
+              <div class="col-4 text-center">
+                <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep">分析進度欄</button>
+              </div>
+            
+          </div>
+
+          <div v-show="step == 6">
+            <div class="mt-3">
+                <h3>MSE值:<span v-text="mse"></span></h3>
+              <span v-text="message"></span>
+              <img class="fluid-image" v-bind:src="image_path" />
+            </div>
+             <div class="row">
+          <div class="col-12 text-center">
+            <button class="btn btn-block btn-primary">加到首頁</button>
+          </div>
+        </div>
+          </div>
+
+
+        </div>
+
+
+        <div v-show="step == 9">
+          <div style="width:100%;height:400px;" id="chart"></div>
+        </div>
+
+      </div>
+    
+
+    <div id="setFan" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">選擇確認</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>選擇風機： <span class="text-danger" v-text="fan"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">重新選擇</button>
+            <button type="button" class="btn btn-primary" v-on:click="nextStep">確定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+ {% include "temp/footer.html" %}
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBriMZsGQqVObqZjAE6nUXbRslfiwh5hiI&callback=initMap"
+async defer></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+  function showLoading(){
+    $('#loadingPanel').modal({
+      backdrop: 'static',
+      keyboard: false,
+    });
+  }
+
+  function hideLoading(){
+    $('#loadingPanel').modal('hide');
+  }
+
+  function showAlert(msg){
+    $('#alertMsg').text(msg);
+    $('#msgPanel').modal('show');
+  }
+
+  var app=new Vue(
+  {
+      el:'#app',
+      data: {
+        checkValue:[],
+        checkValue2:[],
+        checkValue3:[],
+        checkValue4:[],
+        checkValue5:[],
+        method:'regression',
+        regression_algotype:'linear-regression',
+        abnormal_algotype:'svm',
+        cluster_algotype:'birch',
+        classification_algotype:'knn',
+        message:'',
+        x:'',
+        des:'',
+        url:'',
+        image_path:'',
+        mse:'',
+        file_id:'',
+        model_id:'',
+        step: 1,
+        plan: "0",
+        fan: '',
+        label:'',
+        cols: [
+          {
+            name: 'JT_G01_COSPHI',
+            selected: true,
+          },
+          {
+            name: 'JT_G01_DAYAVA',
+            selected: true,
+          },
+          {
+            name: 'JT_G01_FREQ',
+            selected: true,
+          },
+          {
+            name: 'JT_G01_MONTHAVA',
+            selected: true,
+          },
+          {
+            name: 'JT_G01_NOMP',
+            selected: true,
+          },
+          {
+            name:'JT_G01_NROTOR',
+            selected:true,
+          },
+          { 
+            name:'JT_G01_VANE',
+            selected:true,
+          },
+          {
+            name: 'JT_G01_I_L1',
+            selected: true,
+          },
+        ],
+         cols1: [ 'JT_G01_COSPHI','JT_G01_DAYAVA','JT_G01_FREQ','JT_G01_MONTHAVA','JT_G01_NOMP','JT_G01_NROTOR','JT_G01_VANE','JT_G01_I_L1'],
+        chartStartTime: "2015-06-09T02:00",
+        chartEndTime: "2015-06-16T00:00",
+        uploadData: '',
+        checked : false,
+        checked5: false,
+        checked4: false,
+      },
+      computed:{
+        selectedCol: function(){
+          var temp = 0;
+          for( var i in this.cols){
+            if(this.cols[i].selected){
+              temp += 1;
+            }
+          }
+          return temp;
+        },
+      },
+      watch:{
+         checkValue(curVal){
+           if(curVal.length == this.cols.length){  
+                        this.checked = true  
+                    }else{  
+                        this.checked = false  
+                    }  
+
+        },
+        checkValue3(curVal){
+          if(curVal.length == this.checkValue2.length){  
+                        this.checked4 = true  
+                    }else{  
+                        this.checked4 = false  
+                    }  
+        },
+        checkValue4(curVal){
+          if(curVal.length == this.checkValue3.length){  
+                        this.checked5 = true  
+                    }else{  
+                        this.checked5 = false  
+                    }  
+        }
+      },
+      methods:{
+        selectAll(event){
+                        if (!event.currentTarget.checked) {
+                            this.checkValue = [];
+                        } else { 
+                            this.checkValue = [];
+                            this.cols.forEach((item, i) =>{
+                                this.checkValue.push(item.name);
+                            });
+                        }
+        },
+        selectAll4(event){
+                        if (!event.currentTarget.checked) {
+                            this.checkValue3 = [];
+                        } else { //实现全选
+                            this.checkValue3 = [];
+                            this.checkValue2.forEach((item, i) =>{
+                                this.checkValue3.push(item);
+                            });
+                        }
+        },
+        selectAll5(event){
+                        if (!event.currentTarget.checked) {
+                            this.checkValue4 = [];
+                        } else { //实现全选
+                            this.checkValue4 = [];
+                            this.checkValue3.forEach((item, i) =>{
+                                this.checkValue4.push(item);
+                            });
+                        }
+        },
+
+        nextStep: function(){
+          console.log(this.step);
+          let _this = this;
+          if(this.step == 1){
+            initMap();
+            _this.step++;
+            $('#setFan').modal('hide');
+          }else if(this.step == 2){
+            for(var i=0;i<this.checkValue.length;i++){
+              this.checkValue2.push(this.checkValue[i]);     
+            }
+            for(var i=0;i<this.checkValue2;i++){
+              console.log(this.checkValue2[i]);
+            }            
+            showLoading();
+            axios.post('http://140.112.26.237:8002/api/file/download_file/',{
+                "filename":"output.csv",
+                "start_time":_this.chartStartTime,
+                "end_time":_this.chartEndTime,
+                "checkValue":_this.checkValue
+            }).then(function(response){
+              _this.url=response.data.url;
+              console.log(_this.checkValue);
+              console.log(_this.url);     
+              hideLoading();  
+            }).catch(function(error){
+                console.log(error);
+                alertMsg(error);
+            });
+             _this.step++;
+          }else if(this.step == 3){ 
+            showLoading();
+            //(1) 資料上傳  此動作會產生file_id供下一步使用
+           
+            axios.post('http://140.112.26.237:8003/csv', {
+                "download_url": _this.url,
+                "file_name": "csv_file.csv",
+                "user_id": "coco",
+                "project_id": "my_project",
+                "project_type": "regression",
+                "stage": "data-preprocess",
+                "label": _this.label.toLowerCase() 
+              }).then(function (response) {
+                _this.file_id=response.data.file_id;
+                // _this.url='http://140.112.26.237:8003/preprocess-save/'+_this.file_id;
+                var status=response.data.status;
+                var des=response.data.description;
+                var file_id=response.data.file_id;
+                console.log("(資料上傳)"+"Status:"+status+",Description:"+des+".File ID:"+file_id);
+                _this.step++;
+                hideLoading();
+            }).catch(function(error){
+              console.log(error);
+              hideLoading();
+              alertMsg(error);
+            });       
+          }else if(this.step == 4){
+             //(2.0)前處理預覽 其實這可以拿掉 為了axios可以執行才加入
+             for(var i=0;i<this.checkValue3.length;i++){
+                this.checkValue3[i]=this.checkValue3[i].toLowerCase();
+             }
+            showLoading();
+            axios.post('http://140.112.26.237:8003/preprocess-preview/'+_this.file_id, {
+              "feature_name": _this.label.toLowerCase(),
+              "filter_std": 1,
+              "missing_value": true,
+              "interval_number": 10
+            }).then(function (response) {
+              var status=response.data.status;
+              var des=response.data.description;
+              var file_id=response.data.tmp_file_id;
+              console.log("(前處理預覽)"+"Status:"+status+",Description:"+des+".File ID:"+file_id);
+              //(2)此步驟為儲存前處理檔案api 吃資料上傳的file_id
+              axios.post('http://140.112.26.237:8003/preprocess-save/'+_this.file_id, {
+                "new_file_name": "pr_file.csv",
+                "normalize": "MinMaxScaler",
+                "feature_list": _this.checkValue3
+              }).then(function (response) {
+                var status=response.data.status;
+                var des=response.data.description;
+                _this_file_id=response.data.new_file_id;
+                console.log("(前處理儲存)"+"Status:"+status+",Description:"+des+".File ID:"+file_id);
+
+                _this.step++;
+                hideLoading();
+              }).catch(function(error){
+                console.log(error);
+
+                hideLoading();
+                alertMsg(error);
+              });
+            }).catch(function(error){
+              console.log(error);
+
+              hideLoading();
+              alertMsg(error);
+            });  
+                 
+           
+          }else if(this.step == 5){
+              //(3.0)計算特徵權重 吃資料前處理後(2)的file_id
+            for(var i=0;i<this.checkValue3.length;i++){
+                this.checkValue3[i]=this.checkValue3[i].toLowerCase();
+             }
+            showLoading();
+            axios.post('http://140.112.26.237:8003/feature-weight/'+_this.file_id, {// layer 1
+              "method": "PearsonCorrelation"
+            }).then(function (response) {
+              var status=response.data.status;
+              var des=response.data.description;
+              console.log("(計算特徵權重)"+"Status:"+status+",Description:"+des);
+              //(3)特徵選取 吃的是前處理後的file_id
+              axios.post('http://140.112.26.237:8003/feature-select/'+_this.file_id, {//layer 2
+                "new_file_name": "selected_feature",
+                "stage": "model-training",
+                "feature_list": ["jt_g01_i_l1","jt_g01_cosphi"] 
+              }).then(function (response) {
+                var status=response.data.status;
+                var des=response.data.description;
+                console.log("(特徵選取)"+"Status:"+status+",Description:"+des);
+                //(4) 執行演算法 吃的是前處理後的file_id
+                if(this.abnormal_algotype=='svm'){
+                    
+                }
+                axios.post('http://140.112.26.237:8003/algo/linear-regression/do', { //layer 3
+                  "file_id": _this.file_id,
+                  "new_file_name": "selected_feature", 
+                  "model_name": "linear_model",
+                  "arguments": {
+                    "fit_intercept":true,
+                    "normalize": true,
+                    "copy_X": true,
+                    "n_jobs": 1
+                  }
+                }).then(function (response) {
+                  var status=response.data.status;
+                  var des=response.data.description;
+                  _this.model_id=response.data.model_id;
+                  console.log("(執行演算法)"+"Status:"+status+",Description:"+des);
+                  //(4.1)模型預覽 吃前面(4)的model_id與(2)的file_id
+                  //最後會產生圖片網址
+                  axios.post('http://140.112.26.237:8003/model-preview/'+_this.file_id, { //layer 4
+                    "model_id": _this.model_id,
+                    "x_axis": _this.x.toLowerCase(),
+                    "y_axis": _this.label.toLowerCase() 
+                  }).then(function (response) {
+                    var status=response.data.status;
+                    var des=response.data.description;
+                    var preurl='http://140.112.26.237:8003'
+                    _this.image_path=preurl+response.data.image_path;
+                    console.log("(模型預覽)"+"Status:"+status+",Description:"+des+"  "+_this.image_path);
+                    //(5)資料預測 吃三種變數 一種是訓練模型所產生的model id 另外一個是前處理產生的file_id 最後一種是演算法種類
+                    //最後會生MSE
+                    axios.post('http://140.112.26.237:8003/model-predict/regression', {// layer 5
+                      "model_id": _this.model_id,
+                      "file_id": _this.file_id
+                    }).then(function (response) {
+                      var status=response.data.status;
+                      var des=response.data.description;
+                      var mse=response.data.performance.mean_square_error;
+                      _this.mse=mse.toFixed(4);
+                      console.log("(模型預測)"+"Status:"+status+",Description:"+des+",MSE:"+mse);
+
+                      _this.step++;
+                      hideLoading();
+                    }).catch(function(error){
+                      console.log(error);
+                      hideLoading();
+                      alertMsg(error);
+                    });// catch layer 5
+                  }).catch(function(error){
+                    console.log(error);
+
+                    hideLoading();
+                    alertMsg(error);
+                  });// catch layer 4
+                }).catch(function(error){
+                  console.log(error);
+
+                  hideLoading();
+                  alertMsg(error);
+                });// catch layer 3
+              }).catch(function(error){
+                console.log(error);
+
+                hideLoading();
+                alertMsg(error);
+              });// catch layer 2
+            }).catch(function(error){
+              console.log(error);
+
+              hideLoading();
+              alertMsg(error);
+            });//// catch layer 1
+     
+          }
+
+        },
+      },
+   })
+
+
+   var map;
+   function initMap() {
+     var center = {lng: 120.582, lat: 25.583};
+     var fanImg = 'http://35.201.247.245/assets/imgs/fan_s.png';
+     var fake1 = {lng: 121.75, lat: 25.143};
+     var fake2 = {lng: 121.752, lat: 25.153};
+     map = new google.maps.Map(document.getElementById('map'), {
+       center: fake1,
+       zoom: 14
+     });
+     var fmarker1 = new google.maps.Marker({position: fake1, map: map, icon: fanImg});
+     fmarker1.addListener('click', function(evt){
+       app.fan = '測試風機一';
+       selectFanDialog();
+     });
+     var fmarker2 = new google.maps.Marker({position: fake2, map: map, icon: fanImg});
+     fmarker2.addListener('click', function(evt){
+       app.fan = '測試風機二';
+       selectFanDialog();
+     });
+   }
+
+   function selectFanDialog(){
+     $('#setFan').modal({
+       keyboard: false
+     });
+   }
+</script>

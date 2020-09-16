@@ -1,0 +1,36 @@
+1 [2019.11.14 11:12:06.837741] [information] Starting master (pid = 9726)
+2 [2019.11.14 11:12:06.838177] [information] Global locale: en_US
+3 [2019.11.14 11:12:06.838194] [information] Global encoding: UTF-8
+4 [2019.11.14 11:12:06.838202] [information] terminal encoding: US-ASCII
+19 [2019.11.14 11:12:07.893848] [information] [SERVICE:FLEXlm Client] license unavailable
+20 [2019.11.14 11:12:07.893888] [information] [SERVICE:FLEXlm Client] temporarily disabling request processing
+21 [2019.11.14 11:12:07.893912] [information] [SERVICE:FLEXlm Client] reset current license type to be invalid
+35 [2019.11.14 11:12:07.906095] [information] [SERVICE:FLEXlm Client] current license type: "COMM"
+36 [2019.11.14 11:12:07.906127] [information] [SERVICE:FLEXlm Client] current license number: "968398"
+40 [2019.11.14 11:12:07.906234] [information] [SERVICE:FLEXlm Client] license checked out successfully
+47 [2019.11.14 11:12:09.663961] [information] [SERVICE:auto-deploy] Added 'FFT' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/FFT.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/FFT_2')
+50 [2019.11.14 11:12:10.509383] [information] [SERVICE:auto-deploy] Added 'MM' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/MM.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/MM_3')
+53 [2019.11.14 11:12:11.451633] [information] [SERVICE:auto-deploy] Added 'RF' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/RF.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/RF_4')
+60 [2019.11.14 11:12:11.452407] [information] [SERVICE:FLEXlm Client] connection to license server recovered
+62 [2019.11.14 11:12:11.452422] [information] [SERVICE:FLEXlm Client] enable request processing
+72 [2019.11.14 11:12:11.816591] [information] [SERVICE:http] [endpoint:[::]:9910] Listening for connections
+73 [2019.11.14 11:12:12.831607] [out] [worker:1] Worker ready - protocol v2
+77 [2019.11.14 11:12:12.832492] [information] [SERVICE:worker] Worker 1 started
+82 [2019.11.14 11:12:12.841448] [information] Master started
+87 [2019.11.14 11:16:38.039264] [err] [worker:1] Error using csvread (line 35)
+88 [2019.11.14 11:16:38.039303] [err] [worker:1] File not found.
+89 [2019.11.14 11:16:38.039311] [err] [worker:1] 
+90 [2019.11.14 11:16:38.039318] [err] [worker:1] Error in fft (line 2)
+91 [2019.11.14 11:16:38.039324] [err] [worker:1] 
+94 [2019.11.14 11:21:20.949176] [err] [worker:1] Index in position 2 exceeds array bounds (must not exceed 1).
+95 [2019.11.14 11:21:20.949214] [err] [worker:1] 
+96 [2019.11.14 11:21:20.949223] [err] [worker:1] Error in fft (line 3)
+97 [2019.11.14 11:21:20.949229] [err] [worker:1] 
+328 [2019.11.14 23:12:22.832739] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:10 has elapsed.)
+330 [2019.11.14 23:12:22.832786] [information] [SERVICE:worker] Waiting for worker 1 to finish pending activity
+331 [2019.11.14 23:12:22.832803] [information] [SERVICE:worker] Starting graceful shutdown of worker 1
+332 [2019.11.14 23:12:22.832854] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 1; waiting for process to exit...
+333 [2019.11.14 23:12:24.398920] [information] [SERVICE:worker] Worker 1 exited with code 0
+335 [2019.11.14 23:12:24.399019] [information] [SERVICE:worker] Worker 1 successfully stopped.
+342 [2019.11.14 23:12:25.591936] [out] [worker:2] Worker ready - protocol v2
+346 [2019.11.14 23:12:25.592204] [information] [SERVICE:worker] Worker 2 started

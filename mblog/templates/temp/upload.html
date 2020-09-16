@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}Welcome{% endblock %}
+{% block headmessage %}
+<div class="card-header bg-primary text-white">
+  資料上傳
+</div>
+{% endblock %}
+{% block content %}
+<div v-show="step == 1">
+  <label class="mt-3">請選擇風機所在的子計畫</label>
+  <select class="form-control mt-2" v-model="plan">
+    <option value="0">選擇子計畫</option>
+    <option value="1">子計畫一</option>
+    <option value="2">子計畫二</option>
+  </select>
+  <button class="btn btn-primary mt-3" v-bind:disabled="plan == '0'" v-on:click="nextStep">下一步</button>
+</div>
+
+<div v-show="step == 2">
+  <label class="mt-3">請選擇要上傳資料的風機</label>
+  <div class="mt-2" style="position:relative; width:100%; padding-top:66.6%">
+    <div style="position:absolute; top:0; left:0; width: 100%; height:100%;">
+      <div id="map" style="width: 100%; height:100%;"></div>
+    </div>
+  </div>
+</div>
+
+<div v-show="step == 3">
+  <label class="mt-3">請選擇要上傳至 <span class="text-danger" v-text="fan"></span> 的資料</label>
+  <div class="mt-2">
+    <input type="file" v-model="uploadData">
+  </div>
+  <button class="btn btn-primary mt-3" v-bind:disabled="uploadData == ''">上傳資料</button>
+</div>
+
+<div id="setFan" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">選擇確認</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>您選擇上傳資料至 <span class="text-danger" v-text="fan"></span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">重新選擇</button>
+        <button type="button" class="btn btn-primary" v-on:click="nextStep">確定</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+  var app=new Vue(
+  {
+      el:'#app',
+      data: {
+        step: 1,
+        plan: "0",
+        fan: '',
+        uploadData: '',
+      },
+      compute:{
+
+      },
+      methods:{
+        nextStep: function(){
+          this.step++;
+          if(this.step == 2){
+            initMap();
+          }
+          $('#setFan').modal('hide');
+        },
+      },
+   })
+
+
+   var map;
+   function initMap() {
+     var center = {lng: 120.582, lat: 25.583};
+     var fake1 = {lng: 121.75, lat: 25.143};
+     var fake2 = {lng: 121.752, lat: 25.153};
+     map = new google.maps.Map(document.getElementById('map'), {
+       center: fake1,
+       zoom: 14
+     });
+     var fmarker1 = new google.maps.Marker({position: fake1, map: map});
+     fmarker1.addListener('click', function(evt){
+       app.fan = '測試風機一';
+       selectFanDialog();
+     });
+     var fmarker2 = new google.maps.Marker({position: fake2, map: map});
+     fmarker2.addListener('click', function(evt){
+       app.fan = '測試風機二';
+       selectFanDialog();
+     });
+   }
+
+   function selectFanDialog(){
+     $('#setFan').modal({
+       keyboard: false
+     });
+   }
+</script>
+
+{% endblock %}

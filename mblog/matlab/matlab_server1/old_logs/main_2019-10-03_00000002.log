@@ -1,0 +1,121 @@
+1 [2019.10.03 11:08:16.135625] [information] Starting master (pid = 8839)
+2 [2019.10.03 11:08:16.136074] [information] Global locale: en_US
+3 [2019.10.03 11:08:16.136090] [information] Global encoding: UTF-8
+4 [2019.10.03 11:08:16.136098] [information] terminal encoding: US-ASCII
+19 [2019.10.03 11:08:17.074570] [information] [SERVICE:FLEXlm Client] license unavailable
+20 [2019.10.03 11:08:17.074600] [information] [SERVICE:FLEXlm Client] temporarily disabling request processing
+21 [2019.10.03 11:08:17.074608] [information] [SERVICE:FLEXlm Client] reset current license type to be invalid
+35 [2019.10.03 11:08:17.103108] [information] [SERVICE:FLEXlm Client] current license type: "COMM"
+36 [2019.10.03 11:08:17.103144] [information] [SERVICE:FLEXlm Client] current license number: "968398"
+40 [2019.10.03 11:08:17.103237] [information] [SERVICE:FLEXlm Client] license checked out successfully
+47 [2019.10.03 11:08:18.849457] [information] [SERVICE:auto-deploy] Added 'MM' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/MM.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/MM_2')
+50 [2019.10.03 11:08:19.749563] [information] [SERVICE:auto-deploy] Added 'RF' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/RF.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/RF_3')
+57 [2019.10.03 11:08:19.750522] [information] [SERVICE:FLEXlm Client] connection to license server recovered
+58 [2019.10.03 11:08:19.750540] [information] [SERVICE:FLEXlm Client] enable request processing
+69 [2019.10.03 11:08:20.115086] [information] [SERVICE:http] [endpoint:[::]:9910] Listening for connections
+70 [2019.10.03 11:08:21.126305] [out] [worker:1] Worker ready - protocol v2
+74 [2019.10.03 11:08:21.127290] [information] [SERVICE:worker] Worker 1 started
+79 [2019.10.03 11:08:21.138611] [information] Master started
+84 [2019.10.03 11:08:35.265457] [err] [worker:1] Error using dlmread (line 147)
+85 [2019.10.03 11:08:35.265496] [err] [worker:1] Mismatch between file and format character vector.
+86 [2019.10.03 11:08:35.265505] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+87 [2019.10.03 11:08:35.265512] [err] [worker:1] 
+88 [2019.10.03 11:08:35.265518] [err] [worker:1] Error in csvread (line 48)
+89 [2019.10.03 11:08:35.265525] [err] [worker:1] 
+90 [2019.10.03 11:08:35.265536] [err] [worker:1] Error in readfile (line 2)
+91 [2019.10.03 11:08:35.265556] [err] [worker:1] 
+94 [2019.10.03 11:11:24.891157] [err] [worker:1] Error using dlmread (line 147)
+95 [2019.10.03 11:11:24.891273] [err] [worker:1] Mismatch between file and format character vector.
+96 [2019.10.03 11:11:24.891311] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+97 [2019.10.03 11:11:24.891341] [err] [worker:1] 
+98 [2019.10.03 11:11:24.891372] [err] [worker:1] Error in csvread (line 48)
+99 [2019.10.03 11:11:24.891422] [err] [worker:1] 
+100 [2019.10.03 11:11:24.891450] [err] [worker:1] Error in readfile (line 2)
+101 [2019.10.03 11:11:24.891477] [err] [worker:1] 
+104 [2019.10.03 11:11:51.392444] [err] [worker:1] Error using dlmread (line 147)
+105 [2019.10.03 11:11:51.392500] [err] [worker:1] Mismatch between file and format character vector.
+106 [2019.10.03 11:11:51.392516] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+107 [2019.10.03 11:11:51.392528] [err] [worker:1] 
+108 [2019.10.03 11:11:51.392542] [err] [worker:1] Error in csvread (line 48)
+109 [2019.10.03 11:11:51.392554] [err] [worker:1] 
+110 [2019.10.03 11:11:51.392566] [err] [worker:1] Error in readfile (line 2)
+111 [2019.10.03 11:11:51.392577] [err] [worker:1] 
+114 [2019.10.03 11:11:52.279599] [err] [worker:1] Error using dlmread (line 147)
+115 [2019.10.03 11:11:52.279634] [err] [worker:1] Mismatch between file and format character vector.
+116 [2019.10.03 11:11:52.279643] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+117 [2019.10.03 11:11:52.279649] [err] [worker:1] 
+118 [2019.10.03 11:11:52.279656] [err] [worker:1] Error in csvread (line 48)
+119 [2019.10.03 11:11:52.279662] [err] [worker:1] 
+120 [2019.10.03 11:11:52.279683] [err] [worker:1] Error in readfile (line 2)
+121 [2019.10.03 11:11:52.279689] [err] [worker:1] 
+124 [2019.10.03 11:11:52.954915] [err] [worker:1] Error using dlmread (line 147)
+125 [2019.10.03 11:11:52.954955] [err] [worker:1] Mismatch between file and format character vector.
+126 [2019.10.03 11:11:52.954963] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+127 [2019.10.03 11:11:52.954970] [err] [worker:1] 
+128 [2019.10.03 11:11:52.954976] [err] [worker:1] Error in csvread (line 48)
+129 [2019.10.03 11:11:52.954983] [err] [worker:1] 
+130 [2019.10.03 11:11:52.954989] [err] [worker:1] Error in readfile (line 2)
+131 [2019.10.03 11:11:52.955012] [err] [worker:1] 
+134 [2019.10.03 11:13:04.680552] [err] [worker:1] Error using dlmread (line 147)
+135 [2019.10.03 11:13:04.680589] [err] [worker:1] Mismatch between file and format character vector.
+136 [2019.10.03 11:13:04.680598] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+137 [2019.10.03 11:13:04.680604] [err] [worker:1] 
+138 [2019.10.03 11:13:04.680610] [err] [worker:1] Error in csvread (line 48)
+139 [2019.10.03 11:13:04.680616] [err] [worker:1] 
+140 [2019.10.03 11:13:04.680622] [err] [worker:1] Error in readfile (line 2)
+141 [2019.10.03 11:13:04.680643] [err] [worker:1] 
+144 [2019.10.03 11:13:05.647154] [err] [worker:1] Error using dlmread (line 147)
+145 [2019.10.03 11:13:05.647191] [err] [worker:1] Mismatch between file and format character vector.
+146 [2019.10.03 11:13:05.647199] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+147 [2019.10.03 11:13:05.647206] [err] [worker:1] 
+148 [2019.10.03 11:13:05.647212] [err] [worker:1] Error in csvread (line 48)
+149 [2019.10.03 11:13:05.647219] [err] [worker:1] 
+150 [2019.10.03 11:13:05.647225] [err] [worker:1] Error in readfile (line 2)
+151 [2019.10.03 11:13:05.647231] [err] [worker:1] 
+154 [2019.10.03 11:13:06.248340] [err] [worker:1] Error using dlmread (line 147)
+155 [2019.10.03 11:13:06.248415] [err] [worker:1] Mismatch between file and format character vector.
+156 [2019.10.03 11:13:06.248436] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+157 [2019.10.03 11:13:06.248453] [err] [worker:1] 
+158 [2019.10.03 11:13:06.248470] [err] [worker:1] Error in csvread (line 48)
+159 [2019.10.03 11:13:06.248488] [err] [worker:1] 
+160 [2019.10.03 11:13:06.248503] [err] [worker:1] Error in readfile (line 2)
+161 [2019.10.03 11:13:06.248518] [err] [worker:1] 
+164 [2019.10.03 11:13:41.003520] [err] [worker:1] Error using dlmread (line 147)
+165 [2019.10.03 11:13:41.003559] [err] [worker:1] Mismatch between file and format character vector.
+166 [2019.10.03 11:13:41.003583] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2,3,4\n
+167 [2019.10.03 11:13:41.003590] [err] [worker:1] 
+168 [2019.10.03 11:13:41.003597] [err] [worker:1] Error in csvread (line 48)
+169 [2019.10.03 11:13:41.003604] [err] [worker:1] 
+170 [2019.10.03 11:13:41.003611] [err] [worker:1] Error in readfile (line 2)
+171 [2019.10.03 11:13:41.003617] [err] [worker:1] 
+174 [2019.10.03 11:14:17.289492] [err] [worker:1] Error using csvread (line 35)
+175 [2019.10.03 11:14:17.289537] [err] [worker:1] File not found.
+176 [2019.10.03 11:14:17.289548] [err] [worker:1] 
+177 [2019.10.03 11:14:17.289557] [err] [worker:1] Error in readfile (line 2)
+178 [2019.10.03 11:14:17.289565] [err] [worker:1] 
+181 [2019.10.03 11:14:47.636795] [err] [worker:1] Error using dlmread (line 147)
+182 [2019.10.03 11:14:47.636833] [err] [worker:1] Mismatch between file and format character vector.
+183 [2019.10.03 11:14:47.636841] [err] [worker:1] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿1,2\n
+184 [2019.10.03 11:14:47.636848] [err] [worker:1] 
+185 [2019.10.03 11:14:47.636855] [err] [worker:1] Error in csvread (line 48)
+186 [2019.10.03 11:14:47.636861] [err] [worker:1] 
+187 [2019.10.03 11:14:47.636866] [err] [worker:1] Error in readfile (line 2)
+188 [2019.10.03 11:14:47.636873] [err] [worker:1] 
+191 [2019.10.03 11:17:37.988160] [out] [worker:1] 
+192 [2019.10.03 11:17:37.988201] [out] [worker:1] status =
+193 [2019.10.03 11:17:37.988209] [out] [worker:1] 
+194 [2019.10.03 11:17:37.988214] [out] [worker:1]      0
+195 [2019.10.03 11:17:37.988220] [out] [worker:1] 
+207 [2019.10.03 11:44:51.123188] [out] [worker:1] 
+208 [2019.10.03 11:44:51.123228] [out] [worker:1] status =
+209 [2019.10.03 11:44:51.123237] [out] [worker:1] 
+210 [2019.10.03 11:44:51.123243] [out] [worker:1]      0
+211 [2019.10.03 11:44:51.123249] [out] [worker:1] 
+419 [2019.10.03 23:08:24.127934] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:03 has elapsed.)
+421 [2019.10.03 23:08:24.128094] [information] [SERVICE:worker] Waiting for worker 1 to finish pending activity
+422 [2019.10.03 23:08:24.128160] [information] [SERVICE:worker] Starting graceful shutdown of worker 1
+423 [2019.10.03 23:08:24.128286] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 1; waiting for process to exit...
+424 [2019.10.03 23:08:25.685636] [information] [SERVICE:worker] Worker 1 exited with code 0
+426 [2019.10.03 23:08:25.685727] [information] [SERVICE:worker] Worker 1 successfully stopped.
+433 [2019.10.03 23:08:26.860716] [out] [worker:2] Worker ready - protocol v2
+437 [2019.10.03 23:08:26.860980] [information] [SERVICE:worker] Worker 2 started

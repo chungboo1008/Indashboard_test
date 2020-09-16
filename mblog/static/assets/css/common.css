@@ -1,0 +1,104 @@
+body{
+    position: relative;
+    font-family: "Microsoft JhengHei", "Heiti TC";
+}
+
+.header{
+    background: linear-gradient(to right, #ecffee, #fff);
+    background-color: #ecffee;
+}
+
+.header-logo{
+    font-size: 2em;
+    color: #135a4e;
+    display: inline-block;
+    margin: .3em 1em .3em 1em;
+    letter-spacing: 5px;
+    font-weight: 800;
+}
+
+.header-links{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    background-color: #55b595;
+}
+
+.header-links li{
+    list-style: none;
+    padding: .7em 1.5em;
+}
+
+.header-links li a{
+    position: relative;
+    font-size: 1.2em;
+    color: #fff;
+    transition: color .4s ease;
+}
+
+.header-links li a:hover{
+    text-decoration: none;
+    color: #2c345f;
+}
+
+.header-links li a::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    border-bottom: solid 2px #2c345f;
+    transition: width .4s ease;
+}
+
+.header-links li a:hover::before{
+    width: 100%;
+}
+
+.header-member{
+    float: right;
+    margin-top: 1.2em;
+}
+
+.body-content{
+    padding-bottom: 6em;
+}
+
+.colL{
+    border: solid 1px #16bb00;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: border .4s ease, background-color .4s ease, color .4s ease;
+}
+
+.colL:hover{
+    border: solid 1px #79bd70;
+    background-color: #017d15;
+    color: #fff;
+}
+
+.colL.active {
+    border: solid 1px #16bb00;
+    background-color: #87b58e;
+    color: #0d7507;
+    width: 50%;
+    margin: 10px 20px;
+
+}
+
+.colL label{
+cursor: pointer;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: right;
+    height:50px;   /* footer的高度一定要是固定值*/ 
+    border-top: solid 2px #238a22;
+}

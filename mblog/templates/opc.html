@@ -1,0 +1,587 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        歡迎使用OPC資料界接功能
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/assets/css/common.css">
+    <link rel="stylesheet" href="/static/assets/css/opc.css">
+    <link rel="stylesheet" href="/static/assets/css/nav.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+   
+</head>
+<body class="bg-light">
+ {% include "temp/header.html" %}
+  <div class="container pt-4" id="app">
+
+    <div class="body-content">
+      <el-steps :active="step" align-center>
+            <el-step title="步驟1" description="輸入OPC資訊"></el-step>
+            <el-step title="步驟2" description="顯示OPC風機資訊"></el-step>
+      </el-steps>
+      <div v-show="step == 1">
+        <h3 class="text-center mt-5">連接風機OPC UA主機</h3>
+          <div class="row justify-content-center">
+              <div class="col-10">
+              <form class="mt-3">
+                  <div class="form-group row">
+                    <label for="url" class="col-sm-3 col-form-label">OPC UA Server URL</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="url" placeholder="OPC UA URL" value="opc.tcp://192.168.3.101">
+                    </div>
+                  </div>
+                  <div class="form-group row justify-content-center">
+                    <label for="port" class="col-sm-3 col-form-label">Port</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="port" placeholder="OPC PORT" value="4840" >
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="servername" class="col-sm-3 col-form-label">OPC UA  Server Name</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="servername" placeholder="Name" value="Turbine OPC UA">
+                    </div>
+                  </div>
+
+                  <fieldset class="form-group">
+                    <div class="row">
+                      <legend class="col-form-label col-sm-3 pt-0">安全協定</legend>
+                      <div class="col-sm-9">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="gridCheck1">
+                            <label class="form-check-label" for="gridCheck1">
+                              協定一
+                            </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="gridCheck2">
+                          <label class="form-check-label" for="gridCheck2">
+                            協定二
+                          </label>
+                        </div>
+                        <div class="form-check disabled">
+                          <input class="form-check-input" type="checkbox" id="gridCheck3" disabled>
+                          <label class="form-check-label" for="gridCheck3">
+                            協定三
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+              </form>
+              <div class="col-12 text-center mb-3">
+                <button class="btn btn-primary px-3 mt-5" v-on:click="nextStep">連接OPC UA主機</button>
+              </div>
+              <div class="row justify-content-center mt-5 pt-2">
+                  <div class="col-2">
+                    <img src="https://img.icons8.com/color/48/000000/light.png">
+                  </div>
+                  <div class="col-10">
+                  <span style="width: 303px;">
+                      全名是OPC Unified Architecture（OPC統一架構）。是OPC基金會應用在自動化技術的機器對機器網絡傳輸協議。
+                      有以下特點<br>
+                      跨平台：不限制作業系統或是程式語言<br>
+                      安全性：包括了認證、授權、加密、簽名<br>
+                      方便的整合：可以將其複雜的資料在OPC UA命名空間上建模<br>
+                    </span>
+                  </div>
+                </div>
+                <div class="row justify-content-center mt-5 pt-2">
+                    <div class="col-2">
+                      <img src="https://img.icons8.com/dusk/64/000000/server.png">
+                    </div>
+                    <div class="col-10">
+                    <span style="width: 303px;">
+                        使用前須知：<br>
+                        1. 工廠中的設備可以透過OPC UA標準將設備的即時資訊提供給OPC Server<br>
+                        2. 輸入欲連接的OPC UA 伺服器URL，開頭為opc.tcp://後接IP地址<br>
+                        3. 輸入該OPC UA伺服器Port號<br>
+                        4. 輸入OPC UA的伺服器名稱<br>
+                        5. 選擇安全協定<br>
+                        
+                      </span>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div v-show="step == 2">
+        <h3 class="text-center mt-5">離岸風機</h3>
+        <div class="row mt-3">
+          <div class="col">
+           
+            <table class="table  table-bordered table-hover mt-1">
+              <thead  class=".thead-dark">
+                <tr>
+                  <th scope="col">Status</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                
+                  <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAC9wAAAvcBLRSNOAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATYSURBVGiB7ZlbbFRVFIa/NQNVbkUKQiBiBBIBwRJsKQ8KseiDMWiMKD4Y0RDFoBLUIhDDQ0OChAc7GEKiJD4BL0D0ARVjEQgxMYFOsTY1QrBUyi0qqeVWpGV+H3oGdvecmbYzUxHtn0xy/n1Z61/7zNmXtaEf/fh/w/JhRFIEKAHmAGXAVGC816wZ+Ak4DBwEas0skQ//WUPSOEkfSDqp3uNk0HfcrRB+l6SYpLYshPtok1Qlafg/Jf5ZSefyINzHWUnP9KXwqKRNGQS0SNoq6WVJsySNkTQi+I2RVCbpFUnbJP2Zwc5HkqL5Fl8gaVeGkXtN0p29sDdI0utK/yZ3SirIl/hoYNDHNUnrJA3NwXahpPWS2kPs7+jJm+h2GpW0EVjuFf8OPGdmB93CB2sqppi0AEs8ATYaGBlUnQf9htke67BddbOrjnk+yoEdwCjPT8zM3s06AEkLgF1ecQMw38yabgiPV5RYIrEB47FM9m46VTWKrKqbVXXE8TUB+JLONeRGMbDAzD7vdQCSRgFHgSKnuBmYbWZnAaY1VBZE21pjwNJMttIgIWxzAZcq4qVb2gOfY4FDwD1Ou/PAFDP7I8xIJIODNZ74NuD5pPjiuhWjB1xt3Q+8kYV4gIihZe0M3jezdtndAIHtF4C/nHYjgffTGQl1HIxEI+DOLGvMbB1ASc2Swe0M+Q6YmYXwMNQO5PKceOmWK4H/1cB6p74NmGhm5/yO6d7AW3QVfwaIJck1G7qJ/IkHeKhDQ2IOr6JzAJMYFGhKQUoAwdS1yCtea2ZXAIrjb88zaXFuelMhY8mMmopHAMzsGrDBa7JInZvGLgh7A2V0/YguAFsdT2tzVpsGktY5dDtwyeHjgVK/T1gA5R7/Ijn60+PLi4GHc9SZHqa5Mw69Mw3AzC4DX3WjLTSAEo/vu2k/8nSuGruDIub62OdV9+gN3O/xH5MPFjIC+YaRcH3UedWT/fZhAYz1+Ann2T9l5R3C7nVoo1ftawsNYJjHL2Qy0AdwT2itXp2vLeNKnIRyktPHCAvgosfdo96ZPtSSxOk0viFVW2gAZz0+wXk+laWoHsNQs0MnetW+ttAAjnm82LH+ddbKeoyI62OGV3k0pXWIhcMen5d8uA5p9+X5gkUTn4X5DuBrCw3gW4/PlzQYoKEkdpzUxSVvEHzzw8yNTQCShgBPek32+n3CAogDvzq8EGdzJ4uspG9mpgSwwuEvAu55+wRwBA8pAQTpvm1ecaWkYQD1JR/GwT7NWW4qttSXxuoBJN0BrPLqt5tZysClWwc2A1cdPgZYmSRFFwuXGqrOTa8DsXty4yl3v7+arjNQW6ApBaEBBEe7T7ziVZLmAhwor+ywKAtRyvfSaxiqHmgFL+1cuPM6gKR5dB5nXXwcdhrr7J8GwV/mZ7ou7S1AmZkdB3h0f+WAlsLWmMSbmWylQQLYVHRx+IoD5ZUdgc8HgO/p/O6SOA1MNbOURSxjAIHB2zet4hjucWJres17kyJ2/SlJjxtMAu4Lqk4AvwB7JXbXz4p12WXmktjqFt2kFit7kxMNsT1I0tpcUos9dZQpudskaXFvAgmEv6r0FyP5S+46TrNJr0eD361Nr3uB3J4XHF4Qt+8VkxfILb/k6+tr1hFBkxb+jdes/ejHfwB/A6IEJPkMWHnNAAAAAElFTkSuQmCC">Normal</td>
+                  <td>Temperature</td>
+                  <td v-text="temperature"></td>
+                </tr>
+                <tr>
+                  
+                  <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAC9wAAAvcBLRSNOAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATYSURBVGiB7ZlbbFRVFIa/NQNVbkUKQiBiBBIBwRJsKQ8KseiDMWiMKD4Y0RDFoBLUIhDDQ0OChAc7GEKiJD4BL0D0ARVjEQgxMYFOsTY1QrBUyi0qqeVWpGV+H3oGdvecmbYzUxHtn0xy/n1Z61/7zNmXtaEf/fh/w/JhRFIEKAHmAGXAVGC816wZ+Ak4DBwEas0skQ//WUPSOEkfSDqp3uNk0HfcrRB+l6SYpLYshPtok1Qlafg/Jf5ZSefyINzHWUnP9KXwqKRNGQS0SNoq6WVJsySNkTQi+I2RVCbpFUnbJP2Zwc5HkqL5Fl8gaVeGkXtN0p29sDdI0utK/yZ3SirIl/hoYNDHNUnrJA3NwXahpPWS2kPs7+jJm+h2GpW0EVjuFf8OPGdmB93CB2sqppi0AEs8ATYaGBlUnQf9htke67BddbOrjnk+yoEdwCjPT8zM3s06AEkLgF1ecQMw38yabgiPV5RYIrEB47FM9m46VTWKrKqbVXXE8TUB+JLONeRGMbDAzD7vdQCSRgFHgSKnuBmYbWZnAaY1VBZE21pjwNJMttIgIWxzAZcq4qVb2gOfY4FDwD1Ou/PAFDP7I8xIJIODNZ74NuD5pPjiuhWjB1xt3Q+8kYV4gIihZe0M3jezdtndAIHtF4C/nHYjgffTGQl1HIxEI+DOLGvMbB1ASc2Swe0M+Q6YmYXwMNQO5PKceOmWK4H/1cB6p74NmGhm5/yO6d7AW3QVfwaIJck1G7qJ/IkHeKhDQ2IOr6JzAJMYFGhKQUoAwdS1yCtea2ZXAIrjb88zaXFuelMhY8mMmopHAMzsGrDBa7JInZvGLgh7A2V0/YguAFsdT2tzVpsGktY5dDtwyeHjgVK/T1gA5R7/Ijn60+PLi4GHc9SZHqa5Mw69Mw3AzC4DX3WjLTSAEo/vu2k/8nSuGruDIub62OdV9+gN3O/xH5MPFjIC+YaRcH3UedWT/fZhAYz1+Ann2T9l5R3C7nVoo1ftawsNYJjHL2Qy0AdwT2itXp2vLeNKnIRyktPHCAvgosfdo96ZPtSSxOk0viFVW2gAZz0+wXk+laWoHsNQs0MnetW+ttAAjnm82LH+ddbKeoyI62OGV3k0pXWIhcMen5d8uA5p9+X5gkUTn4X5DuBrCw3gW4/PlzQYoKEkdpzUxSVvEHzzw8yNTQCShgBPek32+n3CAogDvzq8EGdzJ4uspG9mpgSwwuEvAu55+wRwBA8pAQTpvm1ecaWkYQD1JR/GwT7NWW4qttSXxuoBJN0BrPLqt5tZysClWwc2A1cdPgZYmSRFFwuXGqrOTa8DsXty4yl3v7+arjNQW6ApBaEBBEe7T7ziVZLmAhwor+ywKAtRyvfSaxiqHmgFL+1cuPM6gKR5dB5nXXwcdhrr7J8GwV/mZ7ou7S1AmZkdB3h0f+WAlsLWmMSbmWylQQLYVHRx+IoD5ZUdgc8HgO/p/O6SOA1MNbOURSxjAIHB2zet4hjucWJres17kyJ2/SlJjxtMAu4Lqk4AvwB7JXbXz4p12WXmktjqFt2kFit7kxMNsT1I0tpcUos9dZQpudskaXFvAgmEv6r0FyP5S+46TrNJr0eD361Nr3uB3J4XHF4Qt+8VkxfILb/k6+tr1hFBkxb+jdes/ejHfwB/A6IEJPkMWHnNAAAAAElFTkSuQmCC">Normal</td>
+                  <td>Pressure</td>
+                  <td v-text="pressure"></td>
+                </tr>
+                <tr>
+                
+                  <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAC9wAAAvcBLRSNOAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATYSURBVGiB7ZlbbFRVFIa/NQNVbkUKQiBiBBIBwRJsKQ8KseiDMWiMKD4Y0RDFoBLUIhDDQ0OChAc7GEKiJD4BL0D0ARVjEQgxMYFOsTY1QrBUyi0qqeVWpGV+H3oGdvecmbYzUxHtn0xy/n1Z61/7zNmXtaEf/fh/w/JhRFIEKAHmAGXAVGC816wZ+Ak4DBwEas0skQ//WUPSOEkfSDqp3uNk0HfcrRB+l6SYpLYshPtok1Qlafg/Jf5ZSefyINzHWUnP9KXwqKRNGQS0SNoq6WVJsySNkTQi+I2RVCbpFUnbJP2Zwc5HkqL5Fl8gaVeGkXtN0p29sDdI0utK/yZ3SirIl/hoYNDHNUnrJA3NwXahpPWS2kPs7+jJm+h2GpW0EVjuFf8OPGdmB93CB2sqppi0AEs8ATYaGBlUnQf9htke67BddbOrjnk+yoEdwCjPT8zM3s06AEkLgF1ecQMw38yabgiPV5RYIrEB47FM9m46VTWKrKqbVXXE8TUB+JLONeRGMbDAzD7vdQCSRgFHgSKnuBmYbWZnAaY1VBZE21pjwNJMttIgIWxzAZcq4qVb2gOfY4FDwD1Ou/PAFDP7I8xIJIODNZ74NuD5pPjiuhWjB1xt3Q+8kYV4gIihZe0M3jezdtndAIHtF4C/nHYjgffTGQl1HIxEI+DOLGvMbB1ASc2Swe0M+Q6YmYXwMNQO5PKceOmWK4H/1cB6p74NmGhm5/yO6d7AW3QVfwaIJck1G7qJ/IkHeKhDQ2IOr6JzAJMYFGhKQUoAwdS1yCtea2ZXAIrjb88zaXFuelMhY8mMmopHAMzsGrDBa7JInZvGLgh7A2V0/YguAFsdT2tzVpsGktY5dDtwyeHjgVK/T1gA5R7/Ijn60+PLi4GHc9SZHqa5Mw69Mw3AzC4DX3WjLTSAEo/vu2k/8nSuGruDIub62OdV9+gN3O/xH5MPFjIC+YaRcH3UedWT/fZhAYz1+Ann2T9l5R3C7nVoo1ftawsNYJjHL2Qy0AdwT2itXp2vLeNKnIRyktPHCAvgosfdo96ZPtSSxOk0viFVW2gAZz0+wXk+laWoHsNQs0MnetW+ttAAjnm82LH+ddbKeoyI62OGV3k0pXWIhcMen5d8uA5p9+X5gkUTn4X5DuBrCw3gW4/PlzQYoKEkdpzUxSVvEHzzw8yNTQCShgBPek32+n3CAogDvzq8EGdzJ4uspG9mpgSwwuEvAu55+wRwBA8pAQTpvm1ecaWkYQD1JR/GwT7NWW4qttSXxuoBJN0BrPLqt5tZysClWwc2A1cdPgZYmSRFFwuXGqrOTa8DsXty4yl3v7+arjNQW6ApBaEBBEe7T7ziVZLmAhwor+ywKAtRyvfSaxiqHmgFL+1cuPM6gKR5dB5nXXwcdhrr7J8GwV/mZ7ou7S1AmZkdB3h0f+WAlsLWmMSbmWylQQLYVHRx+IoD5ZUdgc8HgO/p/O6SOA1MNbOURSxjAIHB2zet4hjucWJres17kyJ2/SlJjxtMAu4Lqk4AvwB7JXbXz4p12WXmktjqFt2kFit7kxMNsT1I0tpcUos9dZQpudskaXFvAgmEv6r0FyP5S+46TrNJr0eD361Nr3uB3J4XHF4Qt+8VkxfILb/k6+tr1hFBkxb+jdes/ejHfwB/A6IEJPkMWHnNAAAAAElFTkSuQmCC">Normal</td>
+                  <td>Current</td>
+                  <td v-text="current">C</td>
+                </tr>
+                <tr>
+                
+                    <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAC9wAAAvcBLRSNOAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATYSURBVGiB7ZlbbFRVFIa/NQNVbkUKQiBiBBIBwRJsKQ8KseiDMWiMKD4Y0RDFoBLUIhDDQ0OChAc7GEKiJD4BL0D0ARVjEQgxMYFOsTY1QrBUyi0qqeVWpGV+H3oGdvecmbYzUxHtn0xy/n1Z61/7zNmXtaEf/fh/w/JhRFIEKAHmAGXAVGC816wZ+Ak4DBwEas0skQ//WUPSOEkfSDqp3uNk0HfcrRB+l6SYpLYshPtok1Qlafg/Jf5ZSefyINzHWUnP9KXwqKRNGQS0SNoq6WVJsySNkTQi+I2RVCbpFUnbJP2Zwc5HkqL5Fl8gaVeGkXtN0p29sDdI0utK/yZ3SirIl/hoYNDHNUnrJA3NwXahpPWS2kPs7+jJm+h2GpW0EVjuFf8OPGdmB93CB2sqppi0AEs8ATYaGBlUnQf9htke67BddbOrjnk+yoEdwCjPT8zM3s06AEkLgF1ecQMw38yabgiPV5RYIrEB47FM9m46VTWKrKqbVXXE8TUB+JLONeRGMbDAzD7vdQCSRgFHgSKnuBmYbWZnAaY1VBZE21pjwNJMttIgIWxzAZcq4qVb2gOfY4FDwD1Ou/PAFDP7I8xIJIODNZ74NuD5pPjiuhWjB1xt3Q+8kYV4gIihZe0M3jezdtndAIHtF4C/nHYjgffTGQl1HIxEI+DOLGvMbB1ASc2Swe0M+Q6YmYXwMNQO5PKceOmWK4H/1cB6p74NmGhm5/yO6d7AW3QVfwaIJck1G7qJ/IkHeKhDQ2IOr6JzAJMYFGhKQUoAwdS1yCtea2ZXAIrjb88zaXFuelMhY8mMmopHAMzsGrDBa7JInZvGLgh7A2V0/YguAFsdT2tzVpsGktY5dDtwyeHjgVK/T1gA5R7/Ijn60+PLi4GHc9SZHqa5Mw69Mw3AzC4DX3WjLTSAEo/vu2k/8nSuGruDIub62OdV9+gN3O/xH5MPFjIC+YaRcH3UedWT/fZhAYz1+Ann2T9l5R3C7nVoo1ftawsNYJjHL2Qy0AdwT2itXp2vLeNKnIRyktPHCAvgosfdo96ZPtSSxOk0viFVW2gAZz0+wXk+laWoHsNQs0MnetW+ttAAjnm82LH+ddbKeoyI62OGV3k0pXWIhcMen5d8uA5p9+X5gkUTn4X5DuBrCw3gW4/PlzQYoKEkdpzUxSVvEHzzw8yNTQCShgBPek32+n3CAogDvzq8EGdzJ4uspG9mpgSwwuEvAu55+wRwBA8pAQTpvm1ecaWkYQD1JR/GwT7NWW4qttSXxuoBJN0BrPLqt5tZysClWwc2A1cdPgZYmSRFFwuXGqrOTa8DsXty4yl3v7+arjNQW6ApBaEBBEe7T7ziVZLmAhwor+ywKAtRyvfSaxiqHmgFL+1cuPM6gKR5dB5nXXwcdhrr7J8GwV/mZ7ou7S1AmZkdB3h0f+WAlsLWmMSbmWylQQLYVHRx+IoD5ZUdgc8HgO/p/O6SOA1MNbOURSxjAIHB2zet4hjucWJres17kyJ2/SlJjxtMAu4Lqk4AvwB7JXbXz4p12WXmktjqFt2kFit7kxMNsT1I0tpcUos9dZQpudskaXFvAgmEv6r0FyP5S+46TrNJr0eD361Nr3uB3J4XHF4Qt+8VkxfILb/k6+tr1hFBkxb+jdes/ejHfwB/A6IEJPkMWHnNAAAAAElFTkSuQmCC">Normal</td>
+                    <td>Humidity</td>
+                    <td v-text="humidity"></td>
+                </tr>
+                <tr>
+                
+                      <td><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAC9wAAAvcBLRSNOAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAATYSURBVGiB7ZlbbFRVFIa/NQNVbkUKQiBiBBIBwRJsKQ8KseiDMWiMKD4Y0RDFoBLUIhDDQ0OChAc7GEKiJD4BL0D0ARVjEQgxMYFOsTY1QrBUyi0qqeVWpGV+H3oGdvecmbYzUxHtn0xy/n1Z61/7zNmXtaEf/fh/w/JhRFIEKAHmAGXAVGC816wZ+Ak4DBwEas0skQ//WUPSOEkfSDqp3uNk0HfcrRB+l6SYpLYshPtok1Qlafg/Jf5ZSefyINzHWUnP9KXwqKRNGQS0SNoq6WVJsySNkTQi+I2RVCbpFUnbJP2Zwc5HkqL5Fl8gaVeGkXtN0p29sDdI0utK/yZ3SirIl/hoYNDHNUnrJA3NwXahpPWS2kPs7+jJm+h2GpW0EVjuFf8OPGdmB93CB2sqppi0AEs8ATYaGBlUnQf9htke67BddbOrjnk+yoEdwCjPT8zM3s06AEkLgF1ecQMw38yabgiPV5RYIrEB47FM9m46VTWKrKqbVXXE8TUB+JLONeRGMbDAzD7vdQCSRgFHgSKnuBmYbWZnAaY1VBZE21pjwNJMttIgIWxzAZcq4qVb2gOfY4FDwD1Ou/PAFDP7I8xIJIODNZ74NuD5pPjiuhWjB1xt3Q+8kYV4gIihZe0M3jezdtndAIHtF4C/nHYjgffTGQl1HIxEI+DOLGvMbB1ASc2Swe0M+Q6YmYXwMNQO5PKceOmWK4H/1cB6p74NmGhm5/yO6d7AW3QVfwaIJck1G7qJ/IkHeKhDQ2IOr6JzAJMYFGhKQUoAwdS1yCtea2ZXAIrjb88zaXFuelMhY8mMmopHAMzsGrDBa7JInZvGLgh7A2V0/YguAFsdT2tzVpsGktY5dDtwyeHjgVK/T1gA5R7/Ijn60+PLi4GHc9SZHqa5Mw69Mw3AzC4DX3WjLTSAEo/vu2k/8nSuGruDIub62OdV9+gN3O/xH5MPFjIC+YaRcH3UedWT/fZhAYz1+Ann2T9l5R3C7nVoo1ftawsNYJjHL2Qy0AdwT2itXp2vLeNKnIRyktPHCAvgosfdo96ZPtSSxOk0viFVW2gAZz0+wXk+laWoHsNQs0MnetW+ttAAjnm82LH+ddbKeoyI62OGV3k0pXWIhcMen5d8uA5p9+X5gkUTn4X5DuBrCw3gW4/PlzQYoKEkdpzUxSVvEHzzw8yNTQCShgBPek32+n3CAogDvzq8EGdzJ4uspG9mpgSwwuEvAu55+wRwBA8pAQTpvm1ecaWkYQD1JR/GwT7NWW4qttSXxuoBJN0BrPLqt5tZysClWwc2A1cdPgZYmSRFFwuXGqrOTa8DsXty4yl3v7+arjNQW6ApBaEBBEe7T7ziVZLmAhwor+ywKAtRyvfSaxiqHmgFL+1cuPM6gKR5dB5nXXwcdhrr7J8GwV/mZ7ou7S1AmZkdB3h0f+WAlsLWmMSbmWylQQLYVHRx+IoD5ZUdgc8HgO/p/O6SOA1MNbOURSxjAIHB2zet4hjucWJres17kyJ2/SlJjxtMAu4Lqk4AvwB7JXbXz4p12WXmktjqFt2kFit7kxMNsT1I0tpcUos9dZQpudskaXFvAgmEv6r0FyP5S+46TrNJr0eD361Nr3uB3J4XHF4Qt+8VkxfILb/k6+tr1hFBkxb+jdes/ejHfwB/A6IEJPkMWHnNAAAAAElFTkSuQmCC">Normal</td>
+                      <td>Time</td>
+                      <td v-text="time"></td>
+                </tr>
+              
+          
+              </tbody>
+            </table>
+            <div class="col text-center mb-3">
+                <button type="button" class="btn btn-primary px-3 " data-toggle="modal" data-target="#exampleModal">收集感測服務</button>
+            </div>
+
+            </div>
+            
+                <div class="col container">
+                    <div class="stolby">
+                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                       width="511.411px" height="407.229px" viewBox="0 0 511.411 407.229" enable-background="new 0 0 511.411 407.229"
+                       xml:space="preserve">
+                 
+                    <g>
+                      <polygon points="39.658,407.268 9.494,407.268 17.432,109.596 31.72,109.596 	"/>
+                      <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="39.7222" y1="269.0303" x2="6.912" y2="270.0892">
+                        <stop  offset="0" style="stop-color:#6A4301"/>
+                        <stop  offset="0.1656" style="stop-color:#030500"/>
+                        <stop  offset="0.4969" style="stop-color:#06224B"/>
+                        <stop  offset="1" style="stop-color:#132457"/>
+                      </linearGradient>
+                      <path fill="url(#SVGID_2_)" d="M24.047,132.086c-2.442,0-4.847-0.19-7.2-0.554L9.494,407.268h30.164L32.3,131.345
+                        C29.611,131.822,26.856,132.086,24.047,132.086z"/>
+                      <path fill="#010E2B" d="M32.424,84.523c0,0-36.414,9.628-32.063,21.358c4.351,11.729,40.032,2.199,40.032,2.199
+                        s11.264-6.758,6.145-16.741C41.246,81.02,32.424,84.523,32.424,84.523z"/>
+                      <g>
+                        <path d="M46.538,91.339c-0.154-0.299-0.31-0.583-0.469-0.859c0.557,6.966-6.387,12.064-6.387,12.064s-32.924,12.152-39.597,2.314
+                          c0.059,0.339,0.148,0.679,0.275,1.022c4.351,11.729,40.032,2.199,40.032,2.199S51.657,101.322,46.538,91.339z"/>
+                        <path fill="#010E2B" d="M39.682,102.545c0,0,6.943-5.098,6.387-12.064c-5.327-9.258-13.645-5.957-13.645-5.957
+                          s-34.315,9.075-32.339,20.336C6.758,114.697,39.682,102.545,39.682,102.545z"/>
+                      </g>
+                      <circle cx="35.946" cy="96.405" r="12.392"/>
+                      <path fill="#8C330C" d="M21.6,90.611c0,0-16.639,5.794-18.919,11.312c-1.703,4.123,17.86-2.117,17.86-2.117
+                        s-0.86-1.852-0.529-4.763C20.344,92.133,21.6,90.611,21.6,90.611"/>
+                    </g>
+                    
+                    </svg>
+                    </div>
+                  
+      
+                      
+                     
+                      <div id="v2">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                       width="386.318px" height="383.263px" viewBox="0 0 386.318 383.263" enable-background="new 0 0 386.318 383.263"
+                       xml:space="preserve">
+                    <g>
+                      <g>
+                        <path d="M130.94,3.861c0,0,22.969,107.389,27.945,126.642c7.857,30.4,27.35,60.646,27.35,60.646l12.485-2.974
+                          c0,0-59.456-196.799-67.78-187.881"/>
+                        <path d="M48.472,334.449c0,0,85.37-69.078,100.287-82.228c23.553-20.765,41.703-51.834,41.703-51.834l-8.302-9.789
+                          c0,0-148.589,142.079-136.869,145.465"/>
+                        <path d="M383.356,248.43c0,0-101.435-42.082-120.107-48.92c-29.485-10.797-65.449-11.929-65.449-11.929l-4.644,11.965
+                          c0,0,195.751,62.826,193.136,50.909"/>
+                      </g>
+                      <circle cx="193.021" cy="192.458" r="14.449"/>
+                    </g>
+                    </svg>
+                      </div>
+                      
+                      
+                    
+                      
+                
+                      
+                      
+                    </div>
+                    
+                    
+                <!-- <div class="card text-center">
+                    <div class="card-header">
+                        Alarm Messages
+                    </div>
+                    <div class="card-body">
+                <table class="table  table-hidden table-bordered table-hover mt-3" style="overflow:scroll;">
+                    <tbody>
+                      <tr>
+                        <td>Temoerature is OK</td>
+                      </tr>
+                      <tr>             
+                        <td>Pressure is OK</td>
+                      </tr>
+                      <tr> 
+                        <td>Time is OK</td>
+                      </tr>
+                      <tr>
+                          <td>Temoerature is OK</td>
+                        </tr>
+                        <tr>             
+                          <td>Pressure is OK</td>
+                        </tr>
+                        <tr> 
+                          <td>Time is OK</td>
+                        </tr>
+                      
+                    </tbody>
+                  </table> 
+              </div>-->
+            
+            </div>
+        
+        <div class="row">
+          <div class="col">
+              <div class="card text-center">
+                  <div class="card-header" style="font-size:1.5em;"
+                  >
+                      風機資訊
+                  </div>
+                  <div class="card-body bg-white">
+                    <div class="outer mt-3">
+                      <div class="row">
+                          <div id="container-speed" class="chart-container"></div>
+                          <div id="container-rpm" class="chart-container"></div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <!-- <div class="col">
+            <div class="card text-center">
+                <div class="card-header">
+                  KPI
+                </div>
+                <div class="card-body">
+                  <div class="outer mt-3">
+                  
+                        <div id="container-rpm" class="chart-container"></div>
+            
+                  </div>
+                </div>
+            </div>
+        </div> -->
+        </div>
+        <div v-show="step==3">
+
+        </div>
+        
+      </div>
+      
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalLabel">匯出OPC UA感測資料</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <label class="mt-2">選擇匯出時間區間</label>
+           
+                  <div class="mt-3">
+                    <input type="datetime-local" class="form-control" v-model="start">
+                    <h6 class="text-center">至</h6>
+                    <input type="datetime-local" class="form-control" v-model="end">
+                  </div>
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消匯出</button>
+                <button type="button" class="btn btn-primary">確定匯出CSV</button>
+              </div>
+            </div>
+          </div>
+      </div>
+      
+    
+  </div>
+  </div>
+{% include "temp/footer.html" %}
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script> 
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+<script type="text/javascript">
+  
+  function addBtnClick(){
+    app.addPanelInit();
+    $('#addContent').modal('show');
+  }
+  var app=new Vue(
+  { 
+      el:'#app',
+      data: {
+         step:1,
+         start:'2019-01-26T00:00',
+         end:'2019-01-26T02:00',
+         name: '',
+         region: '',
+         date1: '',
+         date2: '',
+         delivery: false,
+         type: [],
+         resource: '',
+         desc: '',
+         pressure:'',
+         temperature:'',
+         current:'',
+         frequency:'',
+         humidity:'',
+         time:'',
+         ajaxing:false,
+         turbine:'mainsite_mli_g01',
+         
+      },
+      methods:{
+        nextStep: function(){
+          this.step++;
+          if(this.step == 1){   
+          }
+          else if(this.step==2){
+            console.log(this.step);
+            this.dynamic_value();
+            setInterval(this.dynamic_value, 1000);
+            // window.setInterval(dynamic_value, 1000);
+
+
+var gaugeOptions = {
+
+chart: {
+    type: 'solidgauge'
+},
+
+title: null,
+
+pane: {
+    center: ['50%', '85%'],
+    size: '140%',
+    startAngle: -90,
+    endAngle: 90,
+    background: {
+        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+        innerRadius: '60%',
+        outerRadius: '100%',
+        shape: 'arc'
+    }
+},
+
+tooltip: {
+    enabled: false
+},
+
+// the value axis
+yAxis: {
+    stops: [
+        [0.1, '#55BF3B'], // green
+        [0.5, '#DDDF0D'], // yellow
+        [0.9, '#DF5353'] // red
+    ],
+    lineWidth: 0,
+    minorTickInterval: null,
+    tickAmount: 2,
+    title: {
+        y: -70
+    },
+    labels: {
+        y: 16
+    }
+},
+
+plotOptions: {
+    solidgauge: {
+        dataLabels: {
+            y: 5,
+            borderWidth: 0,
+            useHTML: true
+        }
+    }
+}
+};
+
+
+// The speed gauge
+var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+yAxis: {
+    min: 0,
+    max: 10,
+    title: {
+        text: 'Wind Speed'
+    }
+},
+
+credits: {
+    enabled: false
+},
+
+series: [{
+    name: 'Speed',
+    data: [10],
+    dataLabels: {
+        format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+               '<span style="font-size:12px;color:silver">m/s</span></div>'
+    },
+    tooltip: {
+        valueSuffix: 'm/s'
+    }
+}]
+
+}));
+
+// The RPM gauge
+var chartRpm = Highcharts.chart('container-rpm', Highcharts.merge(gaugeOptions, {
+yAxis: {
+    min: 0,
+    max: 1200,
+    title: {
+        text: 'RPM'
+    }
+},
+
+series: [{
+    name: 'RPM',
+    data: [1000],
+    dataLabels: {
+        format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
+               '<span style="font-size:12px;color:silver">rpm</span></div>'
+    },
+    tooltip: {
+        valueSuffix: ' revolutions/min'
+    }
+}]
+
+}));
+
+// Bring life to the dials
+setInterval(function () {
+// Speed
+var point,
+    newVal,
+    inc;
+
+if (chartSpeed) {
+    point = chartSpeed.series[0].points[0];
+    inc = Math.round((Math.random() - 0.5) * 10);
+    newVal = point.y + inc;
+
+    if (newVal < 0 || newVal > 10) {
+        newVal = point.y - inc;
+    }
+
+    point.update(newVal);
+}
+
+// RPM
+if (chartRpm) {
+    point = chartRpm.series[0].points[0];
+    inc =Math.round((Math.random() - 0.5) * 100);
+    newVal = point.y + inc;
+
+    if (newVal < 0 || newVal > 1200) {
+        newVal = point.y - inc;
+    }
+
+    point.update(newVal);
+}
+}, 2000);
+
+
+
+
+
+
+
+          }
+          else if(this.step==3){
+            console.log(this.step);
+          }
+        },
+        dynamic_value: function(){
+          const _this = this;
+          parameter={
+            value:"abc"
+          }
+          $.ajax({
+                    url: "http://140.112.26.237:8002/api/file/read_opc/",
+                    type: "POST",
+                    contentType: 'application/json; charset=utf-8',
+                    data :JSON.stringify(parameter),
+                    dataType: "json",
+                    async:false,
+                    beforeSend: function(){
+                      _this.ajaxing = true;
+                    },
+                    success: function (data) {
+                      _this.pressure=data.Pressure.toString().concat("Pa");
+                      _this.temperature=data.Temperature.toString().concat("℃");
+                      _this.time=data.TIME_Value;
+                      _this.current=data.Current.toString().concat("A");
+                      _this.humidity=data.Humidity.toString().concat("%");
+
+
+                      // console.log(pressure+temperature+time);            
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                      console.log('error');
+                      console.log(thrownError);
+                    },
+                    complete: function(){
+                      _this.ajaxing = false;
+                      
+                    }
+                });
+            }
+      },
+      // mounted:function(){
+      //       this.dynamic_value();
+      //       setInterval(this.dynamic_value, 1000);
+      // },
+      
+      
+  })
+
+</script>
+
+

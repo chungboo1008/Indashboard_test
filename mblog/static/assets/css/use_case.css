@@ -1,0 +1,98 @@
+
+.cc-selector input{
+    margin:0;padding:0;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+            appearance:none;
+}
+.tableSearch{background-image:url(http://140.112.26.237:8002/media/disp_img/find_table.png);}
+.tableCreate{background-image:url(http://140.112.26.237:8002/media/disp_img/search.png);}
+
+.cc-selector input:active +.drinkcard-cc{opacity: .9;}
+.cc-selector input:checked +.drinkcard-cc{
+    -webkit-filter: none;
+    -moz-filter: none;
+            filter: none;
+}
+.drinkcard-cc{
+    cursor:pointer;
+    background-size:contain;
+    background-repeat:no-repeat;
+    display:inline-block;
+    width:256px;height:256px;
+    -webkit-transition: all 100ms ease-in;
+    -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+    -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+            filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+.drinkcard-cc:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+
+/* Extras */
+/* a:visited{color:#888}
+a{color:#444;text-decoration:none;}
+p{margin-bottom:.3em;}
+
+ */
+
+
+.step-desc{
+    background-color: #ddd;
+    padding: 10px 0;
+    text-align: center;
+    transition: background-color .4s ease, color .4s ease;
+    color: #444;
+}
+.loadingPanel{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0000005e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4771b3;
+}
+
+.step-desc.active{
+    background-color: #d87a7a;
+    color: #fff;
+    font-weight: 1000;
+}
+.center{
+    position: relative;
+    margin: -100px 0px 0px -200px;/*調整水平垂直置中*/
+    top: 50%;
+    left: 50%;
+    overflow: auto;
+}
+.demo-table-expand {
+    font-size: 0;
+}
+.demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+}
+#expert_container {
+	min-width: 310px;
+	max-width: 800px;
+	margin: 0 auto
+}
+
+
+.box-card {
+    width: 650px;
+}

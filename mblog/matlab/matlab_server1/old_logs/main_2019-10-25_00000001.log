@@ -1,0 +1,16 @@
+1727 [2019.10.25 09:43:47.153429] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:08 has elapsed.)
+1729 [2019.10.25 09:43:47.153464] [information] [SERVICE:worker] Waiting for worker 7 to finish pending activity
+1730 [2019.10.25 09:43:47.153479] [information] [SERVICE:worker] Starting graceful shutdown of worker 7
+1731 [2019.10.25 09:43:47.153507] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 7; waiting for process to exit...
+1732 [2019.10.25 09:43:47.245363] [information] [SERVICE:worker] Worker 7 exited with code 0
+1734 [2019.10.25 09:43:47.245429] [information] [SERVICE:worker] Worker 7 successfully stopped.
+1741 [2019.10.25 09:43:53.250637] [out] [worker:8] Worker ready - protocol v2
+1745 [2019.10.25 09:43:53.265334] [information] [SERVICE:worker] Worker 8 started
+1963 [2019.10.25 21:43:59.265443] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:06 has elapsed.)
+1965 [2019.10.25 21:43:59.265479] [information] [SERVICE:worker] Waiting for worker 8 to finish pending activity
+1966 [2019.10.25 21:43:59.265493] [information] [SERVICE:worker] Starting graceful shutdown of worker 8
+1967 [2019.10.25 21:43:59.265522] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 8; waiting for process to exit...
+1968 [2019.10.25 21:43:59.345343] [information] [SERVICE:worker] Worker 8 exited with code 0
+1970 [2019.10.25 21:43:59.345404] [information] [SERVICE:worker] Worker 8 successfully stopped.
+1977 [2019.10.25 21:44:05.989552] [out] [worker:9] Worker ready - protocol v2
+1981 [2019.10.25 21:44:06.005304] [information] [SERVICE:worker] Worker 9 started

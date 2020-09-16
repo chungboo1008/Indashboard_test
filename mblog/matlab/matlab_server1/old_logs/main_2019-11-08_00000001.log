@@ -1,0 +1,16 @@
+311 [2019.11.08 07:07:46.640608] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:10 has elapsed.)
+313 [2019.11.08 07:07:46.640660] [information] [SERVICE:worker] Waiting for worker 1 to finish pending activity
+314 [2019.11.08 07:07:46.640682] [information] [SERVICE:worker] Starting graceful shutdown of worker 1
+315 [2019.11.08 07:07:46.640741] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 1; waiting for process to exit...
+316 [2019.11.08 07:07:48.206796] [information] [SERVICE:worker] Worker 1 exited with code 0
+318 [2019.11.08 07:07:48.206920] [information] [SERVICE:worker] Worker 1 successfully stopped.
+325 [2019.11.08 07:07:49.436878] [out] [worker:2] Worker ready - protocol v2
+329 [2019.11.08 07:07:49.437184] [information] [SERVICE:worker] Worker 2 started
+547 [2019.11.08 19:07:54.437288] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:05 has elapsed.)
+549 [2019.11.08 19:07:54.437320] [information] [SERVICE:worker] Waiting for worker 2 to finish pending activity
+550 [2019.11.08 19:07:54.437349] [information] [SERVICE:worker] Starting graceful shutdown of worker 2
+551 [2019.11.08 19:07:54.437379] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 2; waiting for process to exit...
+552 [2019.11.08 19:07:54.456222] [information] [SERVICE:worker] Worker 2 exited with code 0
+554 [2019.11.08 19:07:54.456297] [information] [SERVICE:worker] Worker 2 successfully stopped.
+561 [2019.11.08 19:07:55.674307] [out] [worker:3] Worker ready - protocol v2
+565 [2019.11.08 19:07:55.674589] [information] [SERVICE:worker] Worker 3 started

@@ -1,0 +1,9 @@
+// Input file name must be "input.txt"
+
+Temporal Discretization, Wave Model (0: Auto select, 1: Airy, 2: Stokes, 3: Cnoidal)
+Wave Height, Period, Water Depth
+Current	Speed and Profile
+
+Number of Divide of Cylinder
+cd cm ct coefficients
+Height and Diameter

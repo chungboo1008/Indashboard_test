@@ -1,0 +1,28 @@
+
+.loadingPanel{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0000005e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4771b3;
+}
+.el-table__body-wrapper.is-scrolling-left.style{
+    height: 550px;
+}
+.transfer-footer {
+    margin-left: 20px;
+    padding: 6px 5px;
+}
+.el-transfer-panel {
+    width: 400px;
+}
+
+
+
+

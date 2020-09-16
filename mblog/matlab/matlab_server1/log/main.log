@@ -1,0 +1,8 @@
+5777 [2019.11.26 11:15:16.089607] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:01 has elapsed.)
+5779 [2019.11.26 11:15:16.089641] [information] [SERVICE:worker] Waiting for worker 24 to finish pending activity
+5780 [2019.11.26 11:15:16.089656] [information] [SERVICE:worker] Starting graceful shutdown of worker 24
+5781 [2019.11.26 11:15:16.089685] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 24; waiting for process to exit...
+5782 [2019.11.26 11:15:16.170505] [information] [SERVICE:worker] Worker 24 exited with code 0
+5784 [2019.11.26 11:15:16.170574] [information] [SERVICE:worker] Worker 24 successfully stopped.
+5791 [2019.11.26 11:15:19.926890] [out] [worker:25] Worker ready - protocol v2
+5795 [2019.11.26 11:15:19.927114] [information] [SERVICE:worker] Worker 25 started

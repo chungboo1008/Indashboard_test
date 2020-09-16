@@ -1,0 +1,141 @@
+
+.outer {
+    width: 600px;
+    height: 200px;
+    margin: 0 auto;
+}
+.outer .chart-container {
+    width: 300px;
+    float: left;
+    height: 200px;
+}
+.highcharts-yaxis-grid .highcharts-grid-line {
+    display: none;
+}
+
+@media (max-width: 600px) {
+.outer {
+    width: 100%;
+    height: 400px;
+}
+.outer .chart-container {
+    width: 300px;
+    float: none;
+    margin: 0 auto;
+}
+
+}
+.table-hidden tbody{
+    overflow-y: auto;/*設定卷軸 auto 是有超過我的高度的時候才會出現卷軸*/
+    height: 100px;/*自己設定*/
+    display: block
+
+}.table-hidden tr {
+    width: 100%;
+    display: inline-table;
+}
+.stolby {
+    position:absolute;
+    left:200px;
+    top:0;
+    margin-top:18%;
+}
+
+#v1, #v2, #v3, #v4 {
+    animation: 2s motion1 infinite linear;
+    position:absolute;
+    top:0;
+}
+
+#v1 {
+    left:377px; 
+    top:0px;
+
+}
+
+#v2 {
+    left:45px;
+    top:0px;
+    -moz-transform: scale(0.7) rotate(0deg);
+    -webkit-transform: scale(0.7) rotate(0deg);
+    -o-transform: scale(0.7) rotate(0deg);
+    -ms-transform: scale(0.7) rotate(0deg);
+    transform: scale(0.7) rotate(0deg);
+    animation: 2s motion2 infinite linear;
+}
+
+#v3 {
+    left:510px;
+    top:0px;
+    -moz-transform: scale(0.5) rotate(0deg);
+    -webkit-transform: scale(0.5) rotate(0deg);
+    -o-transform: scale(0.5) rotate(0deg);
+    -ms-transform: scale(0.5) rotate(0deg);
+    transform: scale(0.5) rotate(0deg);
+    animation: 2s motion3 infinite linear;
+    opacity:0.9;
+}
+
+#v4 {
+    left:184px;
+    top:164px;
+    -moz-transform: scale(0.3) rotate(0deg);
+    -webkit-transform: scale(0.3) rotate(0deg);
+    -o-transform: scale(0.3) rotate(0deg);
+    -ms-transform: scale(0.3) rotate(0deg);
+    transform: scale(0.3) rotate(0deg);
+    animation: 2s motion4 infinite linear;
+    opacity:0.7;
+}
+
+@keyframes motion1 {
+    from {}
+
+    to {
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+
+    }
+}
+
+@keyframes motion2 {
+    from {}
+
+    to {
+        -moz-transform: scale(0.7) rotate(360deg);
+        -webkit-transform: scale(0.7) rotate(360deg);
+        -o-transform: scale(0.7) rotate(360deg);
+        -ms-transform: scale(0.7) rotate(360deg);
+        transform: scale(0.7) rotate(360deg);
+
+    }
+}
+
+@keyframes motion3 {
+    from {}
+
+    to {
+        -moz-transform: scale(0.5) rotate(360deg);
+        -webkit-transform: scale(0.5) rotate(360deg);
+        -o-transform: scale(0.5) rotate(360deg);
+        -ms-transform: scale(0.5) rotate(360deg);
+        transform: scale(0.5) rotate(360deg);
+
+    }
+}
+
+@keyframes motion4 {
+    from {}
+
+    to {
+        -moz-transform: scale(0.3) rotate(360deg);
+        -webkit-transform: scale(0.3) rotate(360deg);
+        -o-transform: scale(0.3) rotate(360deg);
+        -ms-transform: scale(0.3) rotate(360deg);
+        transform: scale(0.3) rotate(360deg);
+
+    }
+} 

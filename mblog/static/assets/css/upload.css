@@ -1,0 +1,17 @@
+
+  .step-desc{
+      background-color: #ddd;
+      padding: 10px 0;
+      text-align: center;
+      transition: background-color .4s ease, color .4s ease;
+      color: #444;
+  }
+  
+  
+  .step-desc.active{
+      background-color: #d87a7a;
+      color: #fff;
+      font-weight: 1000;
+  }
+ 
+  

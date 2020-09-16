@@ -1,0 +1,19 @@
+1 [2019.10.21 21:42:38.698412] [information] Starting master (pid = 21421)
+2 [2019.10.21 21:42:38.698847] [information] Global locale: en_US
+3 [2019.10.21 21:42:38.698863] [information] Global encoding: UTF-8
+4 [2019.10.21 21:42:38.698870] [information] terminal encoding: US-ASCII
+19 [2019.10.21 21:42:39.593580] [information] [SERVICE:FLEXlm Client] license unavailable
+20 [2019.10.21 21:42:39.593611] [information] [SERVICE:FLEXlm Client] temporarily disabling request processing
+21 [2019.10.21 21:42:39.593620] [information] [SERVICE:FLEXlm Client] reset current license type to be invalid
+35 [2019.10.21 21:42:39.605329] [information] [SERVICE:FLEXlm Client] current license type: "COMM"
+36 [2019.10.21 21:42:39.605356] [information] [SERVICE:FLEXlm Client] current license number: "968398"
+40 [2019.10.21 21:42:39.605454] [information] [SERVICE:FLEXlm Client] license checked out successfully
+47 [2019.10.21 21:42:41.356015] [information] [SERVICE:auto-deploy] Added 'FFT' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/FFT.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/FFT_2')
+50 [2019.10.21 21:42:42.191196] [information] [SERVICE:auto-deploy] Added 'MM' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/MM.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/MM_3')
+53 [2019.10.21 21:42:43.094958] [information] [SERVICE:auto-deploy] Added 'RF' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/RF.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/RF_4')
+62 [2019.10.21 21:42:43.096221] [information] [SERVICE:FLEXlm Client] connection to license server recovered
+63 [2019.10.21 21:42:43.096255] [information] [SERVICE:FLEXlm Client] enable request processing
+72 [2019.10.21 21:42:43.464079] [information] [SERVICE:http] [endpoint:[::]:9910] Listening for connections
+73 [2019.10.21 21:42:44.495680] [out] [worker:1] Worker ready - protocol v2
+77 [2019.10.21 21:42:44.496530] [information] [SERVICE:worker] Worker 1 started
+82 [2019.10.21 21:42:44.516554] [information] Master started

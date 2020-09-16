@@ -1,0 +1,76 @@
+1 [2019.10.02 15:17:45.313353] [information] Starting master (pid = 16083)
+2 [2019.10.02 15:17:45.313464] [information] Global locale: en_US
+3 [2019.10.02 15:17:45.313479] [information] Global encoding: UTF-8
+4 [2019.10.02 15:17:45.313487] [information] terminal encoding: US-ASCII
+19 [2019.10.02 15:17:46.140245] [information] [SERVICE:FLEXlm Client] license unavailable
+20 [2019.10.02 15:17:46.140275] [information] [SERVICE:FLEXlm Client] temporarily disabling request processing
+21 [2019.10.02 15:17:46.140284] [information] [SERVICE:FLEXlm Client] reset current license type to be invalid
+35 [2019.10.02 15:17:46.145844] [information] [SERVICE:FLEXlm Client] current license type: "COMM"
+36 [2019.10.02 15:17:46.145872] [information] [SERVICE:FLEXlm Client] current license number: "968398"
+40 [2019.10.02 15:17:46.145986] [information] [SERVICE:FLEXlm Client] license checked out successfully
+51 [2019.10.02 15:17:47.004160] [information] [SERVICE:FLEXlm Client] connection to license server recovered
+53 [2019.10.02 15:17:47.004357] [information] [SERVICE:FLEXlm Client] enable request processing
+63 [2019.10.02 15:17:47.380482] [information] [SERVICE:http] [endpoint:[::]:9910] Listening for connections
+64 [2019.10.02 15:17:48.204762] [out] [worker:1] Worker ready - protocol v2
+68 [2019.10.02 15:17:48.205272] [information] [SERVICE:worker] Worker 1 started
+73 [2019.10.02 15:17:48.205585] [information] Master started
+87 [2019.10.02 15:30:27.911303] [information] [SERVICE:auto-deploy] Added 'MM' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/MM.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/MM_2')
+119 [2019.10.02 16:42:48.912985] [information] [SERVICE:auto-deploy] Added 'RF' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/RF.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/RF_3')
+127 [2019.10.02 16:51:15.118120] [err] [worker:1] Error using csvread (line 35)
+128 [2019.10.02 16:51:15.118160] [err] [worker:1] File not found.
+129 [2019.10.02 16:51:15.118170] [err] [worker:1] 
+130 [2019.10.02 16:51:15.118177] [err] [worker:1] Error in readfile (line 2)
+131 [2019.10.02 16:51:15.118183] [err] [worker:1] 
+134 [2019.10.02 16:52:46.906758] [err] [worker:1] Error using csvread (line 35)
+135 [2019.10.02 16:52:46.906806] [err] [worker:1] File not found.
+136 [2019.10.02 16:52:46.906815] [err] [worker:1] 
+137 [2019.10.02 16:52:46.906837] [err] [worker:1] Error in readfile (line 2)
+138 [2019.10.02 16:52:46.906843] [err] [worker:1] 
+141 [2019.10.02 16:54:11.843362] [err] [worker:1] Error using csvread (line 35)
+142 [2019.10.02 16:54:11.843414] [err] [worker:1] File not found.
+143 [2019.10.02 16:54:11.843424] [err] [worker:1] 
+144 [2019.10.02 16:54:11.843431] [err] [worker:1] Error in readfile (line 2)
+145 [2019.10.02 16:54:11.843438] [err] [worker:1] 
+148 [2019.10.02 16:56:26.946109] [out] [worker:1] 
+149 [2019.10.02 16:56:26.946152] [out] [worker:1] status =
+150 [2019.10.02 16:56:26.946160] [out] [worker:1] 
+151 [2019.10.02 16:56:26.946181] [out] [worker:1]      0
+152 [2019.10.02 16:56:26.946187] [out] [worker:1] 
+158 [2019.10.02 16:58:47.882745] [err] [worker:1] Error using csvread (line 35)
+159 [2019.10.02 16:58:47.882784] [err] [worker:1] File not found.
+160 [2019.10.02 16:58:47.882792] [err] [worker:1] 
+161 [2019.10.02 16:58:47.882799] [err] [worker:1] Error in readfile (line 2)
+162 [2019.10.02 16:58:47.882805] [err] [worker:1] 
+165 [2019.10.02 17:03:39.430660] [out] [worker:1] 
+166 [2019.10.02 17:03:39.430701] [out] [worker:1] status =
+167 [2019.10.02 17:03:39.430724] [out] [worker:1] 
+168 [2019.10.02 17:03:39.430731] [out] [worker:1]      0
+169 [2019.10.02 17:03:39.430736] [out] [worker:1] 
+185 [2019.10.02 17:49:04.894115] [information] [SERVICE:auto-deploy] Updated 'RF' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/RF.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/RF_4')
+188 [2019.10.02 17:49:04.899911] [err] [worker:1] Caught "std::exception" Exception message is:
+189 [2019.10.02 17:49:04.899956] [err] [worker:1] std::exception
+190 [2019.10.02 17:49:04.900683] [err] [worker:1] std::exception
+191 [2019.10.02 17:49:04.900733] [err] [worker:1] 
+192 [2019.10.02 17:49:04.901039] [err] [worker:1] Error terminating component: 
+193 [2019.10.02 17:49:04.901059] [err] [worker:1] Dynamic exception type: MathWorks::mcl::mclMATLABException
+194 [2019.10.02 17:49:04.901067] [err] [worker:1] std::exception::what: std::exception
+195 [2019.10.02 17:49:04.901074] [err] [worker:1] 
+198 [2019.10.02 17:49:10.236740] [out] [worker:1] 
+199 [2019.10.02 17:49:10.236782] [out] [worker:1] status =
+200 [2019.10.02 17:49:10.236805] [out] [worker:1] 
+201 [2019.10.02 17:49:10.236811] [out] [worker:1]      0
+202 [2019.10.02 17:49:10.236817] [out] [worker:1] 
+206 [2019.10.02 18:00:35.823897] [information] [SERVICE:auto-deploy] Updated 'RF' ('/home/ntu/myDjango/mblog/matlab/matlab_server1/auto_deploy/RF.ctf' -> '/home/ntu/myDjango/mblog/matlab/matlab_server1/.mps_deployed/RF_5')
+209 [2019.10.02 18:00:35.829611] [err] [worker:1] Caught "std::exception" Exception message is:
+210 [2019.10.02 18:00:35.829654] [err] [worker:1] std::exception
+211 [2019.10.02 18:00:35.830271] [err] [worker:1] std::exception
+212 [2019.10.02 18:00:35.830321] [err] [worker:1] 
+213 [2019.10.02 18:00:35.830539] [err] [worker:1] Error terminating component: 
+214 [2019.10.02 18:00:35.830558] [err] [worker:1] Dynamic exception type: MathWorks::mcl::mclMATLABException
+215 [2019.10.02 18:00:35.830566] [err] [worker:1] std::exception::what: std::exception
+216 [2019.10.02 18:00:35.830573] [err] [worker:1] 
+219 [2019.10.02 18:00:49.913428] [out] [worker:1] 
+220 [2019.10.02 18:00:49.913470] [out] [worker:1] status =
+221 [2019.10.02 18:00:49.913479] [out] [worker:1] 
+222 [2019.10.02 18:00:49.913500] [out] [worker:1]      0
+223 [2019.10.02 18:00:49.913506] [out] [worker:1] 

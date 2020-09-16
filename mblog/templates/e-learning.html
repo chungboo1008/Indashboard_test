@@ -1,0 +1,360 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        歡迎使用工業e-learning功能
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/assets/css/common.css">
+    <link rel="stylesheet" href="/static/assets/css/nav.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <style>
+        .q-desc{
+            margin-top: .5em;
+            text-align: center;
+            border: solid 2px #ffd619;
+            padding: 1em;
+            background-color: #fff; 
+            display: none;
+        }
+        
+        
+    </style>
+</head>
+
+<body>
+{% include "temp/header.html" %}
+
+    <div id="app">
+      <div class="container">
+        <div class="mt-4">
+  
+          <div v-show="step == 0">
+  
+            <div class="row">
+              <div class="col-12 col-lg">
+  
+                <h2 class="text-center">新增題目</h2>
+  
+                <div class="form-group">
+                  <label>題目內容</label>
+                  <textarea class="form-control" v-model="editing_question" placeholder="ex: This __ a pen." rows="5"></textarea>
+                </div>
+  
+                <div class="form-group">
+                  <label>題目選項(選擇多項正解則可新增複選題)</label>
+                  <div class="input-group mb-2" v-for="(item, index) in editing_question_answers">
+                    <div class="input-group-prepend">
+                      <button class="btn" :class="{'btn-success': item.is_answer, 'btn-danger': !item.is_answer}" type="button" @click="item.is_answer = !item.is_answer" v-text="item.is_answer?'正解':'錯誤'">正解</button>
+                    </div>
+                    <input type="text" class="form-control" v-model="item.content">
+                  </div>
+                </div>
+  
+                <div class="form-group">
+                  <label>題目解說(optional)</label>
+                  <textarea class="form-control" v-model="editing_question_desc" rows="5"></textarea>
+                </div>
+  
+                <div class="text-center">
+                  <button class="btn btn-success" :disabled="!addQuestionBtnValidate" @click="addQuestion">新增</button>
+                </div>
+  
+              </div>
+  
+              <div class="col-12 col-lg" v-show="questions.length>0">
+                <div> 
+                      <a href=""><img src="http://140.112.26.237:8002/media/image/e-learning.jpg" width="540" height="270"></a>
+                      
+                   </div>
+                <div class='mt-3'>
+  <!--                 <iframe src="https://www.youtube.com/watch?v=vYia-L9nAfw" width="540" height="300"></iframe> -->
+                  <iframe width="540" height="270" 
+                      src="https://www.youtube.com/embed/nzV1NmhC7ik" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class='mt-3'>
+  <!--                 <iframe src="https://www.youtube.com/watch?v=vYia-L9nAfw" width="540" height="300"></iframe> -->
+                  <a href=""><img src="http://140.112.26.237:8002/media/image/README.png" width="540" height="270"></a>
+                </div>
+                
+                
+                <div class="card bg-secondary p-3 mt-3">
+  
+                  <ul class="list-group">
+                    <li class="list-group-item text-truncate" v-for="(item, index) in questions">
+                      <span v-text="'Q'+(index+1)+'. '+item.content"></span>
+                      <div class="float-right">
+                        <span @click="questionOrderDown(index)"><i class="fas fa-arrow-circle-down"></i></span>
+                        <span @click="questionOrderUp(index)"><i class="fas fa-arrow-circle-up"></i></span>
+                      </div>
+                       
+                    </li>
+                    
+                   
+  
+                   
+                  </ul>
+  
+                  <div class="text-center mt-3">
+                    <button class="btn btn-primary" v-if="generateTestBtnValidate" @click="genTest">產生考卷</button>
+                  </div>
+  
+                </div>
+                
+                
+  
+              </div>
+            </div>
+  
+          </div>
+  
+          <div v-show="step == 1">
+            <!--考卷-->
+            
+            <div class="border border-dark p-4">
+  
+              <button class="btn btn-outline-success btn-sm mb-5" @click="step = 0"><i class="fas fa-arrow-left"></i></button>
+  
+              <div v-for="(item, index) in test_questions" class="mb-4">
+  
+                <div>
+                  <h2 v-text="'Question '+ (index+1) + ' :'"></h2>
+                  <p class="pl-4" v-text="item.content"></p>
+                </div>
+  
+                <div>
+                  <h5>答案選項(<span v-text="item.type == 'multi'? '多選': '單選'"></span>)</h5>
+                  <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action" :class="{'list-group-item-danger': test_finished && (ans_item.selected!=ans_item.is_answer), 'list-group-item-success': test_finished && (ans_item.selected==ans_item.is_answer)}" @click="answerClicked(index, ans_index)" v-for="(ans_item, ans_index) in item.answers">
+                      <span v-show="ans_item.selected"><i class="fas fa-check-square"></i> </span>
+                      <span v-show="!ans_item.selected"><i class="far fa-square"></i> </span>
+                      <span v-text="ans_item.content"></span>
+                    </button>
+                  </div>
+                </div>
+  
+                <div class="q-desc" v-if="item.desc.trim().length > 0">
+                  <h4 class="text-center">題目詳解</h4>
+                  <p v-text="item.desc"></p>
+                </div>
+  
+              </div>
+  
+              <div class="text-center p-3 mt-3 border rounded border-success" v-show="test_finished">
+                <h3>正確率 {{score}} / {{test_questions.length}}</h3>
+                <button class="btn btn-success mt-2" @click="step = 0"><i class="fas fa-arrow-left"></i></button>
+              </div>
+  
+              <div class="text-center" v-show="!test_finished">
+                <button class="btn btn-success" @click="scoring">作答完成</button>
+              </div>
+  
+            </div>
+          </div>
+  
+  
+        </div>
+      </div>
+    </div>
+
+{% include "temp/footer.html" %}
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/javascript">
+var app = null;
+
+  function initApp(){
+    app = new Vue({
+      el: '#app',
+      data: {
+				step: 0,
+				editing_question: '',
+				editing_question_answers: [
+					{
+						is_answer: true,
+						selected: false,
+						content: '',
+					},
+					{
+						is_answer: false,
+						selected: false,
+						content: '',
+					},
+					{
+						is_answer: false,
+						selected: false,
+						content: '',
+					},
+					{
+						is_answer: false,
+						selected: false,
+						content: '',
+					},
+				],
+				editing_question_desc: '',
+
+				questions: [],
+				test_questions: [],
+				test_finished: false,
+				score: 0,
+      },
+      mounted: function(){
+
+      },
+      watch: {
+
+      },
+      updated: function(){
+
+      },
+      computed: {
+				addQuestionBtnValidate: function(){
+					if(this.editing_question.trim().length == 0){
+						return false;
+					}
+					var hasAns = false;
+					for(var i=0;i<this.editing_question_answers.length;i++){
+						if(this.editing_question_answers[i].content.trim().length == 0){
+							return false;
+						}
+						hasAns = hasAns || this.editing_question_answers[i].is_answer;
+					}
+					if(!hasAns){
+						return false;
+					}
+					return true;
+				},
+				generateTestBtnValidate: function(){
+					return this.questions.length > 0;
+				},
+      },
+      methods: {
+				addQuestion: function(){
+					var qobj = {};
+					qobj.content = this.editing_question;
+					qobj.answers = this.editing_question_answers;
+					qobj.desc = this.editing_question_desc;
+					this.questions.push(qobj);
+
+					this.editing_question = '';
+					this.editing_question_answers = [
+						{
+							is_answer: true,
+							selected: false,
+							content: '',
+						},
+						{
+							is_answer: false,
+							selected: false,
+							content: '',
+						},
+						{
+							is_answer: false,
+							selected: false,
+							content: '',
+						},
+						{
+							is_answer: false,
+							selected: false,
+							content: '',
+						},
+					];
+					this.editing_question_desc = '';
+				},
+				questionOrderDown: function(index){
+					if(index < this.questions.length - 1){
+						var tmp = this.questions[index];
+						this.questions.splice(index, 1);
+						this.questions.splice(index+1, 0, tmp);
+					}
+				},
+				questionOrderUp: function(index){
+					if(index > 0){
+						var tmp = this.questions[index];
+						this.questions.splice(index, 1);
+						this.questions.splice(index-1, 0, tmp);
+					}
+				},
+				genTest: function(){
+					this.test_questions = [];
+					for(var i=0;i<this.questions.length;i++){
+						var obj = {};
+						obj.content = this.questions[i].content;
+						obj.desc = this.questions[i].desc;
+						var tempQ = [...this.questions[i].answers];
+						obj.answers = [];
+						var count = 0;
+						while(tempQ.length > 0){
+							var rndIndex = parseInt(Math.random()* tempQ.length);
+							if(tempQ[rndIndex].is_answer){
+								count++;
+							}
+							obj.answers.push(tempQ[rndIndex]);
+							tempQ.splice(rndIndex, 1);
+						}
+						if(count > 1){
+							obj.type = 'multi';
+						}else{
+							obj.type = 'single';
+						}
+						obj.correct = 'unknown';
+						this.test_questions.push(obj);
+					}
+					$('.q-desc').slideUp();
+					this.step = 1;
+					this.test_finished = false;
+				},
+				answerClicked: function(qIndex, aIndex){
+					if(this.test_finished){
+						return;
+					}
+					const q = this.test_questions[qIndex];
+					if(q.type == 'multi'){
+						q.answers[aIndex].selected = !q.answers[aIndex].selected;
+					}else if(q.type == 'single'){
+						for(var i=0;i<q.answers.length;i++){
+							q.answers[i].selected = false;
+						}
+						q.answers[aIndex].selected = true;
+					}
+				},
+				correctingQ: function(q){
+					for(var i=0;i<q.answers.length;i++){
+						if(q.answers[i].selected != q.answers[i].is_answer){
+							return false;
+						}
+					}
+					return true;
+				},
+				scoring: function(){
+					if(!this.test_finished){
+						var count = 0;
+						for(var i=0;i<this.test_questions.length;i++){
+							if(this.correctingQ(this.test_questions[i])){
+								count++;
+							}
+						}
+						this.score = count;
+
+						this.test_finished = true;
+						$('.q-desc').slideDown();
+					}
+				},
+      }
+    });
+  }
+
+  $(document).ready(function(){
+		initApp();
+  });
+</script>

@@ -1,0 +1,5 @@
+Server startup error: 
+Throw location unknown (consider using BOOST_THROW_EXCEPTION)
+Dynamic exception type: mwboost::exception_detail::clone_impl<mwboost::exception_detail::error_info_injector<mwboost::system::system_error> >
+std::exception::what: bind: Address already in use
+

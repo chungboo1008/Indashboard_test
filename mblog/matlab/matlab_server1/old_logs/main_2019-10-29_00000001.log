@@ -1,0 +1,24 @@
+3615 [2019.10.29 09:45:40.254782] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:04 has elapsed.)
+3617 [2019.10.29 09:45:40.254819] [information] [SERVICE:worker] Waiting for worker 15 to finish pending activity
+3618 [2019.10.29 09:45:40.254835] [information] [SERVICE:worker] Starting graceful shutdown of worker 15
+3619 [2019.10.29 09:45:40.254864] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 15; waiting for process to exit...
+3620 [2019.10.29 09:45:40.360003] [information] [SERVICE:worker] Worker 15 exited with code 0
+3622 [2019.10.29 09:45:40.360943] [information] [SERVICE:worker] Worker 15 successfully stopped.
+3629 [2019.10.29 09:45:49.346404] [out] [worker:16] Worker ready - protocol v2
+3633 [2019.10.29 09:45:49.346680] [information] [SERVICE:worker] Worker 16 started
+3851 [2019.10.29 21:45:54.346780] [information] [SERVICE:auto-restart] restart trigger fired (reason: The requested interval of 12:00:05 has elapsed.)
+3853 [2019.10.29 21:45:54.346820] [information] [SERVICE:worker] Waiting for worker 16 to finish pending activity
+3854 [2019.10.29 21:45:54.346835] [information] [SERVICE:worker] Starting graceful shutdown of worker 16
+3855 [2019.10.29 21:45:54.346863] [information] [SERVICE:worker] Shutdown request was successfully sent to worker 16; waiting for process to exit...
+3856 [2019.10.29 21:45:54.469437] [information] [SERVICE:worker] Worker 16 exited with code 0
+3858 [2019.10.29 21:45:54.469501] [information] [SERVICE:worker] Worker 16 successfully stopped.
+3865 [2019.10.29 21:46:02.899066] [out] [worker:17] Worker ready - protocol v2
+3869 [2019.10.29 21:46:02.899381] [information] [SERVICE:worker] Worker 17 started
+3897 [2019.10.29 23:05:40.393468] [err] [worker:17] Error using dlmread (line 147)
+3898 [2019.10.29 23:05:40.393509] [err] [worker:17] Mismatch between file and format character vector.
+3899 [2019.10.29 23:05:40.393518] [err] [worker:17] Trouble reading 'Numeric' field from file (row number 1, field number 1) ==> ﻿keywords,tags\n
+3900 [2019.10.29 23:05:40.393526] [err] [worker:17] 
+3901 [2019.10.29 23:05:40.393532] [err] [worker:17] Error in csvread (line 48)
+3902 [2019.10.29 23:05:40.393539] [err] [worker:17] 
+3903 [2019.10.29 23:05:40.393545] [err] [worker:17] Error in fft (line 2)
+3904 [2019.10.29 23:05:40.393550] [err] [worker:17] 

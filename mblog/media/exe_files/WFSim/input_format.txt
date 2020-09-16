@@ -1,0 +1,21 @@
+wind speed (m/s)	wind direction (deg) [North --> 0]
+
+
+// Power Curve
+Num. of Points	Rotor Diameter (m)	Rated Power (kW)
+Wind Speed.1 (m/s)	Power.1(kW)	CT.1
+Wind Speed.2 (m/s)	Power.2(kW)	CT.2
+...
+...
+Wind Speed.P (m/s)	Power.P(kW)	CT.P
+
+** Note: Wind Speed 1 and P are cut-in and cut-out speed
+
+
+// Wind Farm Array
+Num. of turbines
+LAT.1 (km)	LNG.1 (km)
+LAT.2 (km)	LNG.2 (km)
+...
+...
+LAT.T (km)	LNG.T (km)
