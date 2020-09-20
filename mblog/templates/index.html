@@ -28,6 +28,15 @@
     <script src="/static/assets/js/index/web-animations-2.3.1.min.js"></script>
     <script src="/static/assets/js/index/hammer-2.0.8.min.js"></script>
     <script src="/static/assets/js/index/muuri-0.6.3.js"></script>
+
+    <style>
+      .el-transfer-panel{
+      width: 43%;
+      }
+      .el-transfer-panel__list.is-filterable{
+          height: 400px;
+      }
+    </style>
 </head>
 
 <body class="bg-light" onload="updateDashboard()">
@@ -198,6 +207,104 @@
                 </div>
               </div>
             </div>
+            
+            <div id="editChartData" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">編輯</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  
+                  <div class="modal-body">
+                    <div>
+                      <div class="form-group mt-2">
+                        <label>風機：<span class="text-danger" v-text="turbine_name"></span></label>
+                      </div>
+                      
+                      <div class="form-group mt-2">
+                        <label>選擇要繪製的圖表類型：</label>
+                        <select class="form-control mt-2" v-model="charttype" >
+                          <option value="line">折線圖</option>
+                          <option value="wind_rose">風花圖</option>
+                          <option value="pie">圓餅圖</option>
+                          <option value="bar">長條圖</option>
+                          <option value="area">面積圖</option>
+                          <option value="scatter">散佈圖</option>
+                          <option value="combination">組合圖</option>
+                          <option value="heat_map">熱區圖</option>
+                          <!-- <option value="polar_chart">極座標圖</option>
+                          <option value="three_d_scatter">3D散點圖</option>
+                          <option value="solidguage">儀表板</option> -->
+            
+                        </select>
+                      </div>
+
+                      <div class="form-group mt-2">
+                        <label>選擇要繪製的風機時間：</label>
+                      </div>
+                      <div class="form-group"> 
+                        <div class="form-group mt-2">
+                          <input type="datetime-local" class="form-control" v-model="chartStartTime">
+                        </div>
+                        <div class="col-1 mt-3">
+                          <h6 class="text-center">至</h6>
+                        </div>
+                        <div class="form-group mt-2">                  
+                          <input type="datetime-local" class="form-control" v-model="chartEndTime">
+                        </div>
+                      </div>
+
+                      <div class="form-group mt-2">
+                        <label>選擇資料欄位X：</label>
+                      </div>
+                      <div class="form-group mt-2">
+                        <template>
+                            <el-select class="w-100" v-model="values" filterable placeholder="請選">
+                              <el-option
+                                v-for="item in xColumns"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.name">
+                              </el-option>
+                            </el-select>
+                        </template>
+                      </div>
+
+                      <div class="form-group mt-2">
+                        <label>選擇資料欄位Y：</label>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col">
+                            <template>
+                                <el-transfer
+                                    style="text-align: left; display: inline-block;"
+                                    width="700px"
+                                    filterable
+                                    filter-placeholder="請輸入要查詢的欄位"
+                                    v-model="yData"
+                                    :props="{key: 'name',label: 'name'}"
+                                    :titles="['待選擇資料欄位', '已選擇資料欄位']"
+                                    @change="handleChange"
+                                    :data="yColumns"
+                                ></el-transfer>
+                            </template>
+                        </div>
+                      </div>
+
+                      <div class="row mt-3 justify-content-center">
+                        <div class="col">
+                          <button class="btn btn-primary btn-block" @click="applyChartEdit">完成</button>
+                        </div>
+                      </div>
+        
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="loadingPanel" v-show="ajaxing">
               <i class="fas fa-spinner fa-spin fa-4x"></i>
             </div>
@@ -294,6 +401,35 @@ $(document).ready(function () {
         editingFtColor: 'rgb(0,0,0)',
         theme:[],
         select_color:'ui',
+        
+        //data for chart
+        turbine:'mainsite_mli_g01',
+        turbine_name:'',
+        columns:[],
+        width:'',
+        hight:'',
+        value9: [0, 1440],
+        xColumns:[],
+        yColumns:[],
+        xData:[],
+        yData:[],
+        values:[],
+        checkValue:[],
+        tables_name:[],
+        selected: [],
+        step: 1,
+        ajaxing: false,
+        plan: "0",
+        fan: '',
+        temp:[],
+        // dashboarddata: [],
+        charttype: 'line',
+        chartStartTime: "2014-01-01T02:00",
+        chartEndTime: "2014-01-01T12:00",
+        uploadData: '',
+        checked : false ,
+        plan_id:'plan1',
+        id:'',
       },
       watch: {
         widgeSizeW: function(val){
@@ -347,6 +483,9 @@ $(document).ready(function () {
 
           }
          },
+        values:function(value){
+          this.changeX(value)
+        },
       },
       computed:{
         videoInputID: function(){
@@ -367,6 +506,390 @@ $(document).ready(function () {
         },
       },
       methods:{
+        //for chart
+        handleChange(value, direction, movedKeys) {
+          console.log(value, direction, movedKeys);
+          if(direction === "right") {
+          console.log(this.yData)
+          }
+          if(direction === "left") {
+            
+          }
+        },
+
+        getData: function(id){
+          var i = id.split("-");
+          var index = i[1];
+          
+          console.log("*", id);
+
+          const _this = this;
+          _this.id = id;
+          $.ajax({
+            // url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+plan_id,
+            url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id="+plan_id,
+            type: "GET",
+            dataType: "json",
+            beforeSend: function(){
+		          _this.ajaxing = true;
+		        },
+            success: function (data) {
+              console.log(data[0].dashboard);
+              _this.dashboarddata = data[0].dashboard[index].chartdata;
+
+              //turbine
+              _this.turbine = _this.dashboarddata.parameter.table;
+              var buf = _this.turbine.split("g");
+              _this.turbine_name = "麥寮風機" + buf[1];
+              //chart type
+              _this.charttype = _this.charttypeConvert(_this.dashboarddata.chart.type);
+              //start time and end time
+              if(_this.dashboarddata.chart.type == 'spline'){
+                _this.chartStartTime = _this.timeConvert(_this.dashboarddata.parameter.start_time);
+                _this.chartEndTime = _this.timeConvert(_this.dashboarddata.parameter.end_time);
+              }
+              else{
+                _this.chartStartTime = "2014-01-01T02:00";
+                _this.chartEndTime = "2014-01-01T12:00";
+              }
+
+              //value
+              _this.values = _this.dashboarddata.parameter.columns[_this.dashboarddata.parameter.columns.length-1];
+              //yData
+              _this.yData = _this.dashboarddata.parameter.columns;
+              _this.yData.pop();
+              //columns
+              var promise = new Promise(function(resolve, reject){
+                _this.get_columns(_this.dashboarddata.parameter.table,resolve);
+              });
+              promise.then(function(value){
+                console.log("promise resolve",_this.dashboarddata.parameter.columns);
+                _this.changeX(_this.values);
+              });
+              promise.catch(function(value){
+                console.log("promise reject");
+              });
+              
+		    		},
+		    		error: function(xhr, ajaxOptions, thrownError) {
+		    			console.log('error');
+		    			console.log(thrownError);
+		    		},
+		        complete: function(){
+		          _this.ajaxing = false;
+		        }
+          });
+    
+          $('#editChartData').modal('show');
+
+        },
+
+        charttypeConvert: function(type){
+          switch(type){
+            case "spline":return "line";
+            case "column":return "bar";
+            case "column":return "wind_rose";
+            default:return type;
+          }
+        },
+
+        timeConvert: function(time){
+          var buf = time.split(" ");
+          return buf[0] + "T" + buf[1].slice(0,5);
+        },
+
+        get_columns: function(turbine,resolve){
+            header_parameter = {
+                table:turbine,
+            }
+            const _this = this;
+            $.ajax({
+            //url: "http://140.112.26.237:8002/api/file/get_columns/",
+            url: "http://127.0.0.1:8002/api/file/get_columns/",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data :JSON.stringify(header_parameter),
+            dataType: "json",
+            async:true,
+            beforeSend: function(){
+                _this.ajaxing = true;
+            },
+            success: function (data) {
+                _this.yColumns = []
+                _this.xColumns = []
+                for (i = 0; i < data.length ; i++){
+                    var columns_info = {
+                      id:i,
+                      name:data[i]
+                    }
+                    _this.yColumns.push(columns_info)
+                    _this.xColumns.push(columns_info)
+                }
+                // console.log('print1');
+                // console.log("#",_this.yColumns);
+                // console.log(_this.xColumns);
+                resolve();
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.log('error');
+                console.log(thrownError);
+                reject(thrownError);
+            },
+            complete: function(){
+                _this.ajaxing = false;
+              
+            }
+          });
+          console.log(_this.yColumns);
+          },
+        
+        changeX :function(x){
+          this.yColumns=[] 
+          for (i = 0;i<this.xColumns.length;i++){
+            if (this.xColumns[i].name == x){
+            }
+            else{
+              this.yColumns.push(this.xColumns[i])
+            }
+          }
+          // console.log('print2');
+          // console.log(this.yColumns);
+        },
+
+        applyChartEdit: function(){
+          var temp = {
+            "chart": {
+              "type": 'spline',
+              "zoomType":'y',
+              events:{
+                click: function(e){
+                  _this.getData(e.path[3].id);
+                }
+              }
+            },
+            "title": {
+              'text': '風機資料'
+            },
+            'subtitle': {
+              
+            },
+            'xAxis': {
+              'type' : 'datetime',
+              'dateTimeLabelFormats': {
+                'second': '%e of %b'
+              },
+              'reversed': false,
+              'title': {
+                'enabled': true,
+                'text': 'X數值'
+              },
+              'labels': {
+                'format': '{value:%m-%d %H:%M}'//'{value:%y-%m-%d %H:%M}'
+              },
+              'maxPadding': 0.05,
+              'showLastLabel': true
+            },
+          'yAxis': {
+              'title': {
+                'text': 'Y數值'
+              },
+              'labels': {
+                'format': '{value}'
+              },
+              'lineWidth': 2
+            },
+            'legend': {
+              'enabled':true
+            },
+            'tooltip': {
+              'headerFormat': '<b>{series.name}</b><br/>',
+              'pointFormat': 'X={point.x:%Y-%m-%d %H:%M:%S} : Y={point.y}'
+            },
+            'plotOptions': {
+              'spline': {
+                'marker': {
+                  'enable': true
+                }
+              },
+            },
+            'series': []
+          };
+          var json = temp;   
+          var chart=new Object;
+          chart.type='chart';
+          chart.slotW=6;
+          chart.slotH=3;
+          chart.chartdata=json;
+          this.temp=chart;
+
+          const _this = this;
+          var columns = _this.yData.concat(_this.values)
+          const parameter = {
+            columns:columns,
+            table:_this.turbine,
+            start_time:_this.chartStartTime,
+            end_time:_this.chartEndTime
+          };
+          console.log("parameter");
+          console.log(parameter);
+
+          $.ajax({
+            //  url: "http://140.112.26.237:8002/api/file/mli_to_json/",
+            url: "http://127.0.0.1:8002/api/file/mli_to_json/",
+            type: "POST",
+            dataType: "json",
+            data:JSON.stringify(parameter),
+            async:false,
+            beforeSend: function(){
+                _this.ajaxing = true;
+            },
+            success: function (data) {
+              var chart=Highcharts.chart(_this.id,temp);
+              if(_this.values === "date_time"){
+                for(i=0;i<_this.yData.length;i++){
+                  var arr = []
+                  for(j=0;j<data[0][0].length;j++){
+                      var tmp = [];
+                      var datetime = new Date(data[0][0][j][_this.values]);
+                      tmp.push(datetime);
+                      tmp.push(parseFloat(data[0][0][j][_this.yData[i]]));
+                      arr.push(tmp);
+                  }
+                  parameter.start_time=parameter.start_time.replace("T"," ")+":00"
+                  parameter.end_time=parameter.end_time.replace("T"," ")+":00"
+                  var startDatetime = splitString(parameter.start_time);
+                  var endDateime = splitString(parameter.end_time);
+
+                  var sD = new Date(startDatetime);
+                  var eD = new Date(endDateime);
+                  var mSecond = eD.getTime() - sD.getTime();
+                  // console.log(mSecond);
+
+                  function splitString(str){
+                    var buf = str.split(" ");
+                    var date = buf[0].split("-");
+                    var time = buf[1].split(":");
+                    var d = new Date();
+                    d.setFullYear(date[0]);
+                    d.setMonth(date[1]);
+                    d.setDate(date[2]);
+                    d.setHours(time[0]);
+                    d.setMinutes(time[1]);
+                    d.setSeconds(time[2]);
+                    return d
+                  }
+
+                  const s = {
+                      name:_this.yData[i],
+                      data:arr,
+                      pointStart: Date.UTC(startDatetime.getFullYear(), startDatetime.getMonth() - 1, startDatetime.getDate(), startDatetime.getHours(),startDatetime.getMinutes(),startDatetime.getSeconds()),
+                      pointInterval: mSecond / data[0][0].length / 5
+                  }
+                  chart.addSeries(s);
+                  for(j=0;j<data[0][0].length;j++){
+                      chart.xAxis[0].series[0].data[j].category = s.data[j][0];
+                      chart.series[i].points[j].x = s.data[j][0];
+                  }
+                  chart.update(temp);
+                  temp.series.push(s);
+                }
+              }
+              else{
+                for(i=0;i<_this.yData.length;i++){
+                var arr = []
+                for(j=0;j<data[0][0].length;j++){
+                  var tmp = [];
+                  tmp.push(parseFloat(data[0][0][j][_this.values]));
+                  tmp.push(parseFloat(data[0][0][j][_this.yData[i]]));
+                  arr.push(tmp);
+                }
+                const s = {
+                  name:_this.yData[i],
+                  data:arr,
+                }
+                // console.log(s);
+                chart.addSeries(s);
+
+                temp.series.push(s);
+                }
+              }
+              
+              //add get data information
+              temp.parameter = parameter;
+              _this.modifiyDashboard(temp);
+              
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            console.log('error');
+            console.log(thrownError);
+          },
+          complete: function(){
+              _this.ajaxing = false;
+          }
+          });
+
+          $('#editChartData').modal('hide');
+        },
+
+        modifiyDashboard: function(temp){
+          const _this = this;
+          console.log("ID", _this.plan_id);
+          $.ajax({
+          //   url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+_this.plan_id,
+            url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id="+_this.plan_id,
+            type: "GET",
+            dataType: "json",
+            async:false,
+            beforeSend: function(){
+              _this.ajaxing = true;
+            },
+            success: function (data) {
+              _this.dashboarddata = data[0].dashboard;
+
+              var i = _this.id.split("-");
+              var index = i[1];
+              data[0].dashboard[index].chartdata = temp;
+              const newDashboardData = data[0].dashboard;
+              const saveDashboardData = {
+                plan_id: _this.plan_id,
+                dashboard: newDashboardData,
+              };
+              $.ajax({
+                // url: "http://140.112.26.237:8002/api/dashboard/1/save/",
+                url: "http://127.0.0.1:8002/api/dashboard/1/save/",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data :JSON.stringify(saveDashboardData),
+                dataType: "json",
+                async:false,
+                beforeSend: function(){
+                    _this.ajaxing = true;
+                },
+                success: function (data) {
+                  console.log(data);
+                  console.log("modify success");
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                  console.log('error');
+                  console.log(thrownError);
+                },
+                complete: function(){
+                    _this.ajaxing = true;
+                }
+              });
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+              console.log('error');
+              console.log(thrownError);
+            },
+            complete: function(){
+              _this.ajaxing = false;
+            }
+          });
+        },
+
+
+        //original
         setSize: function(newW, newH){
           this.widgeSizeW = newW;
           this.widgeSizeH = newH;
@@ -432,7 +955,6 @@ $(document).ready(function () {
 
           return $div;
         },
-
 
         parseTextElement: function(obj, index){
 
@@ -549,12 +1071,14 @@ $(document).ready(function () {
               return cookieValue;
           }
           var csrftoken = getCookie('csrftoken');
+          console.log("token", csrftoken);
           function csrfSafeMethod(method) {
               // these HTTP methods do not require CSRF protection
               return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
           }
 
           const sortedData = this.getDashboardDataByDragSort();
+          console.log("*", sortedData);
           const saveData = {
             plan_id: '{{ plan_id }}',
             dashboard: sortedData,
@@ -597,6 +1121,7 @@ $(document).ready(function () {
           });
         },
 
+        
         dashboardInit: function(){
           const _this = this;
           $('.grid *').remove(); // all widget remove
@@ -613,6 +1138,13 @@ $(document).ready(function () {
 
               obj.ele = $ele[0];
               if(obj.type == 'chart'){
+                var temp = {
+                  click: function(e){
+                    _this.getData(e.path[3].id);
+                  }
+                }
+                obj.chartdata.chart.events = temp
+                console.log('chart_' + obj.eleId, obj.chartdata);
                 Highcharts.chart('chart_' + obj.eleId, obj.chartdata);
               }
             }
@@ -654,7 +1186,7 @@ $(document).ready(function () {
           temp.size = this.textSize;
           temp.slotW = this.widgeSizeW;
           temp.slotH = this.widgeSizeH;
-          //console.log(temp);
+          // console.log(temp);
           this.pushModel(temp);
         },
 
@@ -917,64 +1449,7 @@ $(document).ready(function () {
                     else
                       return num.toString();
                   }
-                  // parameter.start_time = chartStartTime.setTime(chartStartTime.getTime()+1*60*60).toString();
-                  // parameter.end_time = chartEndTime.setTime(chartEndTime.getTime()+3600).toString();
-                  // console.log("check",chartEndTime.setTime(chartEndTime.getTime()+3600));
-                  // console.log(parameter);
-
-                  /*var temp = {
-                    "chart": {
-                      "type": 'spline',
-                      "zoomType":'y'
-                    },
-                    "title": {
-                      'text': '風機資料'
-                    },
-                    'subtitle': {
-                      
-                    },
-                    'xAxis': {
-                      'type' : 'datetime',
-                      'dateTimeLabelFormats' : {
-                      'week' : '%H%M'
-                      },
-                      'reversed': false,
-                      'title': {
-                        'enabled': true,
-                        'text': 'X數值'
-                      },
-                      'labels': {
-                        'format': '{value} '
-                      },
-                      'maxPadding': 0.05,
-                      'showLastLabel': true
-                    },
-                    'yAxis': {
-                      'title': {
-                        'text': 'Y數值'
-                      },
-                      'labels': {
-                        'format': '{value}'
-                      },
-                      'lineWidth': 2
-                    },
-                    'legend': {
-                      'enabled':true
-                    },
-                    'tooltip': {
-                      'headerFormat': '<b>{series.name}</b><br/>',
-                      'pointFormat': 'X={point.x} : Y={point.y}'
-                    },
-                    'plotOptions': {
-                      'spline': {
-                        'marker': {
-                          'enable': true
-                        }
-                      }
-                    },
-                    'series': []
-                    };
-                  */
+                  
                   var json = temp;   
                   // $('#hello').highcharts(json);  
                   var chart=new Object;
@@ -1120,7 +1595,7 @@ $(document).ready(function () {
   //test code start
   function updateDashboard(){
     time = document.getElementById("timer");
-    window.setTimeout(BalaGinjo, 5000);
+    // window.setTimeout(BalaGinjo, 5000);
     // window.setInterval(BalaGinjo, 10000);
   }
 
@@ -1128,231 +1603,6 @@ $(document).ready(function () {
     app.refreshData('{{plan_id}}');
   }
 
-
-  function refreshData2(){
-    time.innerHTML = time.innerHTML - 1;
-    if(year < 7){
-      year = year + 1;
-    }
-      
-    var chartStartTime = "2014-01-01T02:00";
-    var chartEndTime = "2014-01-01T12:00";
-    var eleID;
-    // var temp;
-    var yData = [];
-    var values;
-    
-      const _this = this;
-      // console.log("IID");
-      // console.log(_this.plan_id);
-    $.ajax({
-      url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id="+_this.plan_id,
-      // url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+_this.plan_id,
-      type: "GET",
-      dataType: "json",
-      async:false,
-      beforeSend: function(){
-        _this.ajaxing = true;
-      },
-      success: function (data) {
-        // console.log("data");
-        // console.log(data);
-        _this.dashboarddata = data[0].dashboard;
-        // console.log(_this.dashboarddata);
-        for(index = 0;index < _this.dashboarddata.length;index++){
-          console.log("index:", index);
-          console.log(_this.dashboarddata[index]);
-          console.log(_this.dashboarddata[index].type);
-          if(_this.dashboarddata[index].type === "chart"){// && index > 9
-            const parameter = _this.dashboarddata[index].chartdata.parameter;
-            values = parameter.columns.pop();
-            parameter.columns.push(values);
-            for(i = 0;i < parameter.columns.length - 1;i++){
-              yData[i] = parameter.columns[i];
-            }
-
-            //update time
-            parameter.start_time = "201" + year + "-01-01 12:00:00";
-            parameter.end_time = "201" + year + "-03-01 12:00:00";
-            console.log(parameter);
-            // if(this.charttype=='line'){
-            var temp = {
-              "chart": {
-                "type": 'spline',
-                "zoomType":'y'
-              },
-              "title": {
-                'text': '風機資料'
-              },
-              'subtitle': {
-                
-              },
-              'xAxis': {
-                'type' : 'datetime',
-                'dateTimeLabelFormats' : {
-                'week' : '%H%M'
-                },
-                'reversed': false,
-                'title': {
-                  'enabled': true,
-                  'text': 'X數值'
-                },
-                'labels': {
-                  'format': '{value} '
-                },
-                'maxPadding': 0.05,
-                'showLastLabel': true
-              },
-              'yAxis': {
-                'title': {
-                  'text': 'Y數值'
-                },
-                'labels': {
-                  'format': '{value}'
-                },
-                'lineWidth': 2
-              },
-              'legend': {
-                'enabled':true
-              },
-              'tooltip': {
-                'headerFormat': '<b>{series.name}</b><br/>',
-                'pointFormat': 'X={point.x} : Y={point.y}'
-              },
-              'plotOptions': {
-                'spline': {
-                  'marker': {
-                    'enable': true
-                  }
-                }
-              },
-              'series': []
-              };
-            var json = temp;   
-            // $('#hello').highcharts(json);  
-            var chart=new Object;
-            chart.type='chart';
-            chart.slotW=6;
-            chart.slotH=3;
-            chart.chartdata=json;
-            this.temp=chart;
-            // }
-            
-
-            
-            //refresh dashboard
-
-            $.ajax({
-              // url: "http://140.112.26.237:8002/api/file/mli_to_json/",
-              url: "http://127.0.0.1:8002/api/file/mli_to_json/",
-              type: "POST",
-              dataType: "json",
-              data:JSON.stringify(parameter),
-              async:false,
-              beforeSend: function(){
-                  _this.ajaxing = true;
-              },
-              success: function (data) {
-                console.log(data);
-                console.log("temp", temp);
-                // var chart=Highcharts.chart('hello',temp);
-                var length = parameter.columns.length - 1;
-                console.log(chart);
-                for(i=0;i<length;i++){
-                  var arr = []
-                  for(j=0;j<data[0][0].length;j++){
-                    var tmp = []
-                      tmp.push(parseFloat(data[0][0][j][values]))
-                      tmp.push(parseFloat(data[0][0][j][yData[i]]))
-                    arr.push(tmp)
-                  }
-                  
-                  const bala = {
-                    name:parameter.columns[i],
-                    data:arr,
-                  }
-                  console.log(bala);
-                  // chart.addSeries(bala);
-                  // console.log("up:", chart);
-                  console.log(temp.series);
-                  temp.series.push(bala);
-                  // temp.series[i] =s;
-                  console.log(temp.series);
-                  
-                  //$('#highcharts-he1m23w-371').highcharts(json);
-                  
-                }
-                //add get data information
-                console.log(temp);
-                temp.parameter = parameter;
-                console.log(temp);
-
-              },
-              error: function(xhr, ajaxOptions, thrownError) {
-                console.log('error');
-                console.log(thrownError);
-              },
-              complete: function(){
-                 _this.ajaxing = false;
-              }
-            });
-
-            _this.dashboarddata[index].chartdata = temp;
-            console.log(_this.dashboarddata[index]);
-            
-          }
-            
-        }
-        
-        const newDashboardData = _this.dashboarddata;
-        // console.log(_this.temp);
-        // newDashboardData.push(_this.temp);
-        console.log(newDashboardData);
-        const saveDashboardData = {
-          //plan_id: _this.plan_id,
-          plan_id: "plan1",
-          dashboard: newDashboardData,
-        };
-        console.log(saveDashboardData);
-        /*$.ajax({
-          url: "http://127.0.0.1:8002/api/dashboard/1/save/",
-          // url: "http://140.112.26.237:8002/api/dashboard/1/save/",
-          type: "POST",
-          contentType: 'application/json; charset=utf-8',
-          data :JSON.stringify(saveDashboardData),
-          dataType: "json",
-          async:false,
-          beforeSend: function(){
-              _this.ajaxing = true;
-          },
-          success: function (data) {
-            console.log(data);
-            console.log("update success");
-            // alert("UPDATE SUCCESS!");
-          },
-          error: function(xhr, ajaxOptions, thrownError) {
-            //console.log(JSON.stringify(saveData));
-            console.log('error');
-            console.log(thrownError);
-          },
-          complete: function(){
-              _this.ajaxing = true;
-          }
-        });*/
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        console.log('error');
-        console.log(thrownError);
-      },
-      complete: function(){
-        _this.ajaxing = false;
-      }
-    });
-          //}
-    app.dashboardInit();
-    console.log("update success");
-    // window.location.reload();
-  }
   //test code end
 
   $(document).ready(function(){

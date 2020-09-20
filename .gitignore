@@ -12,3 +12,5 @@
 
 .DS_Store
 /mblog/node_modules/*
+
+/venv/*

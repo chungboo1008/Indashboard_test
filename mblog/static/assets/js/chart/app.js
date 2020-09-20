@@ -85,6 +85,7 @@ var app=new Vue(
             
           },
           changeX :function(x){
+            console.log("x?", x);
             this.yColumns=[] 
              
              for (i = 0;i<this.xColumns.length;i++){
@@ -125,7 +126,7 @@ var app=new Vue(
             
             }
               $.ajax({
-                  //url: "http://140.112.26.237:8002/get_table_permission/",
+                  // url: "http://140.112.26.237:8002/get_table_permission/",
                   url: "http://127.0.0.1:8002/get_table_permission/",
                   type: "POST",
                   contentType: 'application/json; charset=utf-8',
@@ -149,13 +150,8 @@ var app=new Vue(
                                 _this.yColumns.push(columns_info)
                                 _this.xColumns.push(columns_info)
                           }
-                        }
-                        
-                      
-                          
-                        }
-                        
-                      
+                        }  
+                     }
                   },
                   error: function(xhr, ajaxOptions, thrownError) {
                       console.log('error');
@@ -175,7 +171,7 @@ var app=new Vue(
                   var temp = {
                     "chart": {
                       "type": 'spline',
-                      "zoomType":'y'
+                      "zoomType":'y',
                     },
                     "title": {
                       'text': '風機資料'
@@ -220,7 +216,7 @@ var app=new Vue(
                         'marker': {
                           'enable': true
                         }
-                      }
+                      },
                     },
                     'series': []
                     };
@@ -769,12 +765,9 @@ var app=new Vue(
                 },
                 success: function (data) {
                   console.log(data);
-                  console.log('what temp?');
-                  console.log(temp);
                   // var json = temp.chartdata;
                   if(temp.chart.type === "spline" && _this.values === "date_time"){
                      var chart=Highcharts.chart('chart',temp);
-                     // var chart=new Highcharts.chart('chart',_this.temp.chartdata.series);
                      console.log(chart);
                      for(i=0;i<_this.yData.length;i++){
                         var arr = []
@@ -894,7 +887,7 @@ var app=new Vue(
              const _this = this;
              console.log("ID", _this.plan_id);
             $.ajax({
-              //url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+_this.plan_id,
+            //   url: "http://140.112.26.237:8002/api/dashboard/query/?plan_id="+_this.plan_id,
               url: "http://127.0.0.1:8002/api/dashboard/query/?plan_id="+_this.plan_id,
               type: "GET",
               dataType: "json",
@@ -904,18 +897,18 @@ var app=new Vue(
               },
               success: function (data) {
                 _this.dashboarddata = data[0].dashboard;
-                console.log(_this.dashboarddata);
+               //  console.log(_this.dashboarddata);
                 const newDashboardData = data[0].dashboard;
-                console.log(_this.temp);
+               //  console.log(_this.temp);
                 newDashboardData.push(_this.temp);
-                console.log(newDashboardData);
+               //  console.log(newDashboardData);
                 const saveDashboardData = {
                   plan_id: _this.plan_id,
                   dashboard: newDashboardData,
                 };
-                console.log(saveDashboardData);
+               //  console.log(saveDashboardData);
                 $.ajax({
-                  //url: "http://140.112.26.237:8002/api/dashboard/1/save/",
+                  // url: "http://140.112.26.237:8002/api/dashboard/1/save/",
                   url: "http://127.0.0.1:8002/api/dashboard/1/save/",
                   type: "POST",
                   contentType: 'application/json; charset=utf-8',
